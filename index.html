@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Día Dani - Enfermería</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel (para JSX) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome (Iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Animaciones personalizadas adicionales */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800 selection:bg-teal-200">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- Componentes de Iconos ---
+        const Icon = ({ iconClass, className = "", size = 24, fill = "none" }) => (
+            <i className={`fa-solid ${iconClass} ${className}`} style={{ fontSize: size, width: size, height: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}></i>
+        );
+
+        const Heart = (props) => <Icon iconClass="fa-heart" {...props} />;
+        const BookOpen = (props) => <Icon iconClass="fa-book-open" {...props} />;
+        const PlusCircle = (props) => <Icon iconClass="fa-circle-plus" {...props} />;
+        const Home = (props) => <Icon iconClass="fa-house" {...props} />;
+        const Award = (props) => <Icon iconClass="fa-award" {...props} />;
+        const Stethoscope = (props) => <Icon iconClass="fa-stethoscope" {...props} />;
+        const Thermometer = (props) => <Icon iconClass="fa-temperature-half" {...props} />;
+        const Activity = (props) => <Icon iconClass="fa-heart-pulse" {...props} />;
+        const Syringe = (props) => <Icon iconClass="fa-syringe" {...props} />;
+        const CheckCircle = (props) => <Icon iconClass="fa-circle-check" {...props} />;
+        const XCircle = (props) => <Icon iconClass="fa-circle-xmark" {...props} />;
+        const ChevronRight = (props) => <Icon iconClass="fa-chevron-right" {...props} />;
+        const RefreshCcw = (props) => <Icon iconClass="fa-rotate" {...props} />;
+        const Save = (props) => <Icon iconClass="fa-floppy-disk" {...props} />;
+        const Music = (props) => <Icon iconClass="fa-music" {...props} />;
+
+        // --- Base de datos inicial de preguntas ---
+        const INITIAL_QUESTIONS = [
+            {
+                id: 1,
+                category: 'Fundamentos',
+                question: '¿Cuál es el rango normal de frecuencia cardíaca en un adulto en reposo?',
+                options: ['40-60 lpm', '60-100 lpm', '100-120 lpm', '50-80 lpm'],
+                correctAnswer: '60-100 lpm'
+            },
+            {
+                id: 2,
+                category: 'Farmacología',
+                question: '¿Cuál es la vía de administración que tiene el efecto más rápido?',
+                options: ['Intramuscular', 'Subcutánea', 'Intravenosa', 'Oral'],
+                correctAnswer: 'Intravenosa'
+            },
+            {
+                id: 3,
+                category: 'Anatomía',
+                question: '¿Cuál es el hueso más largo del cuerpo humano?',
+                options: ['Húmero', 'Tibia', 'Fémur', 'Peroné'],
+                correctAnswer: 'Fémur'
+            },
+            {
+                id: 4,
+                category: 'Clínica',
+                question: '¿Qué término describe la dificultad para respirar?',
+                options: ['Disnea', 'Apnea', 'Bradipnea', 'Taquipnea'],
+                correctAnswer: 'Disnea'
+            },
+            {
+                id: 5,
+                category: 'Seguridad',
+                question: '¿Cuántos son los "Correctos" tradicionales para la administración de medicamentos?',
+                options: ['3 correctos', '5 correctos', '2 correctos', '8 correctos'],
+                correctAnswer: '5 correctos'
+            },
+            {
+                id: 6,
+                category: 'Laboratorio',
+                question: '¿Cuál es el rango normal del pH sanguíneo arterial?',
+                options: ['7.00 - 7.10', '7.25 - 7.35', '7.35 - 7.45', '7.50 - 7.60'],
+                correctAnswer: '7.35 - 7.45'
+            }
+        ];
+
+        // --- Componentes de la App ---
+
+        const WelcomeScreen = ({ onNavigate }) => (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 space-y-8 animate-in">
+                <div className="relative">
+                    <div className="absolute -inset-4 bg-teal-200 rounded-full opacity-30 blur-xl"></div>
+                    <Heart className="text-red-500 relative z-10 animate-pulse" size={96} />
+                </div>
+                
+                <div className="space-y-4 max-w-2xl">
+                    <h1 className="text-4xl md:text-6xl font-bold text-teal-900 tracking-tight">
+                        Feliz Día de la Enfermera, <span className="text-teal-600">Dani</span>
+                    </h1>
+                    <p className="text-xl text-gray-600 font-light px-4">
+                        "Cuidar de uno es amor. Cuidar de cientos es enfermería." <br/>
+                        <span className="font-semibold text-teal-700 mt-2 block">¡Te quiero mucho!</span>
+                    </p>
+                </div>
+
+                <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mt-8 px-6">
+                    <button 
+                        onClick={() => onNavigate('letter')}
+                        className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-teal-500 text-teal-700 rounded-xl hover:bg-teal-50 transition-all font-semibold shadow-sm hover:shadow-md w-full md:w-auto"
+                    >
+                        <Award size={20} />
+                        Leer Carta
+                    </button>
+                    <button 
+                        onClick={() => onNavigate('study')}
+                        className="flex items-center justify-center gap-2 px-8 py-4 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-all font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 w-full md:w-auto"
+                    >
+                        <BookOpen size={20} />
+                        Ir a la Trivia
+                    </button>
+                </div>
+            </div>
+        );
+
+        const LetterSection = () => (
+            <div className="max-w-3xl mx-auto bg-white p-6 md:p-12 rounded-2xl shadow-xl border-t-8 border-teal-500 my-4 md:my-8 animate-in">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 font-serif">Para mi Enfermera Favorita: Dani</h2>
+                    <Stethoscope className="text-teal-500 hidden md:block" size={40} />
+                </div>
+                
+                <div className="space-y-6 text-lg text-gray-700 leading-relaxed font-light text-justify">
+                    <p>
+                        Dani, hoy celebro no solo tu profesión, sino esa vocación hermosa que tienes. Requiere una fuerza inmensa, una paciencia infinita y un corazón lleno de compasión que sé que tienes de sobra.
+                    </p>
+                    <p>
+                        Gracias por ser esa mano que sostiene, esa sonrisa que alivia y por toda la dedicación que pones en lo que haces. Admiro tus esfuerzos, tus turnos largos y cómo entregas lo mejor de ti para cuidar a los demás.
+                    </p>
+                    <p>
+                        Eres un pilar fundamental y estoy muy orgulloso de ti. Tu trabajo es el arte de cuidar con ciencia y mucho amor.
+                    </p>
+                    <p className="font-semibold text-teal-700">
+                        ¡Feliz Día, Dani! Te quiero muchísimo.
+                    </p>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-end">
+                    <div className="flex items-center gap-2 text-gray-400 italic">
+                        <Heart size={16} className="text-red-400" />
+                        <span>Con todo mi cariño</span>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const RelaxZone = () => (
+            <div className="max-w-3xl mx-auto animate-in space-y-6">
+                <div className="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-indigo-500">
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="p-3 bg-indigo-100 rounded-full text-indigo-600">
+                            <Music size={32} />
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-800">Zona de Relax</h2>
+                            <p className="text-gray-600">Música tranquila para tus sesiones de estudio o descanso.</p>
+                        </div>
+                    </div>
+                    
+                    <div className="rounded-xl overflow-hidden shadow-inner bg-black">
+                        <iframe 
+                            style={{borderRadius: '12px'}} 
+                            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWZqd5JICZI0u?utm_source=generator&theme=0" 
+                            width="100%" 
+                            height="450" 
+                            frameBorder="0" 
+                            allowFullScreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    <p className="text-center text-xs text-gray-400 mt-4">Playlist: Peaceful Piano (Spotify)</p>
+                </div>
+            </div>
+        );
+
+        const StudyZone = () => {
+            const [mode, setMode] = useState('menu'); 
+            const [questions, setQuestions] = useState(INITIAL_QUESTIONS);
+            const [currentQIndex, setCurrentQIndex] = useState(0);
+            const [score, setScore] = useState(0);
+            const [showResult, setShowResult] = useState(false);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [isCorrect, setIsCorrect] = useState(null);
+
+            // Audio ref para el sonido de éxito
+            const successAudio = useRef(null);
+
+            useEffect(() => {
+                // Pre-cargar un sonido corto de éxito
+                successAudio.current = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+            }, []);
+
+            const [newQ, setNewQ] = useState({
+                question: '',
+                correctAnswer: '',
+                wrong1: '',
+                wrong2: '',
+                wrong3: '',
+                category: 'General'
+            });
+
+            const handleAnswer = (option) => {
+                if (selectedOption) return;
+                
+                const currentQ = questions[currentQIndex];
+                const correct = option === currentQ.correctAnswer;
+                
+                setSelectedOption(option);
+                setIsCorrect(correct);
+                
+                if (correct) {
+                    setScore(score + 1);
+                    // Reproducir sonido si es correcto
+                    if(successAudio.current) {
+                        successAudio.current.currentTime = 0;
+                        successAudio.current.play().catch(e => console.log("Audio play failed (interaction needed first)", e));
+                    }
+                }
+            };
+
+            const nextQuestion = () => {
+                if (currentQIndex < questions.length - 1) {
+                    setCurrentQIndex(currentQIndex + 1);
+                    setSelectedOption(null);
+                    setIsCorrect(null);
+                } else {
+                    setShowResult(true);
+                }
+            };
+
+            const resetGame = () => {
+                setScore(0);
+                setCurrentQIndex(0);
+                setSelectedOption(null);
+                setIsCorrect(null);
+                setShowResult(false);
+                setQuestions([...questions].sort(() => Math.random() - 0.5));
+            };
+
+            const handleAddQuestion = (e) => {
+                e.preventDefault();
+                if (!newQ.question || !newQ.correctAnswer) return;
+
+                const newQuestionObj = {
+                    id: Date.now(),
+                    category: newQ.category,
+                    question: newQ.question,
+                    correctAnswer: newQ.correctAnswer,
+                    options: [newQ.correctAnswer, newQ.wrong1, newQ.wrong2, newQ.wrong3].sort(() => Math.random() - 0.5)
+                };
+
+                setQuestions([...questions, newQuestionObj]);
+                setNewQ({ question: '', correctAnswer: '', wrong1: '', wrong2: '', wrong3: '', category: 'General' });
+                alert('¡Pregunta agregada exitosamente!');
+                setMode('menu');
+            };
+
+            if (mode === 'menu') {
+                return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto animate-in">
+                        <button 
+                            onClick={() => { resetGame(); setMode('play'); }}
+                            className="group relative overflow-hidden bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all border border-teal-100 text-left"
+                        >
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Activity size={100} className="text-teal-600" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-teal-800 mb-2 flex items-center gap-2">
+                                <Thermometer /> Trivia para Dani
+                            </h3>
+                            <p className="text-gray-600">Pon a prueba tus conocimientos con {questions.length} preguntas de repaso.</p>
+                        </button>
+
+                        <button 
+                            onClick={() => setMode('add')}
+                            className="group relative overflow-hidden bg-gradient-to-br from-teal-500 to-teal-700 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all text-white text-left"
+                        >
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <PlusCircle size={100} className="text-white" />
+                            </div>
+                            <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                                <PlusCircle /> Crear Preguntas
+                            </h3>
+                            <p className="text-teal-100">Agrega tus propios temas de estudio o preguntas de examen.</p>
+                        </button>
+
+                        <div className="md:col-span-2 bg-blue-50 p-4 rounded-xl text-center text-blue-800 text-sm">
+                            Actualmente hay <strong>{questions.length}</strong> preguntas disponibles en la base de datos.
+                        </div>
+                    </div>
+                );
+            }
+
+            if (mode === 'add') {
+                return (
+                    <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg border-t-4 border-teal-500 animate-in">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold text-gray-800">Agregar Nueva Pregunta</h3>
+                            <button onClick={() => setMode('menu')} className="text-gray-500 hover:text-gray-700">Cancelar</button>
+                        </div>
+
+                        <form onSubmit={handleAddQuestion} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={newQ.category}
+                                    onChange={(e) => setNewQ({...newQ, category: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                    placeholder="Ej: Anatomía"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">La Pregunta</label>
+                                <textarea 
+                                    required
+                                    rows="2"
+                                    value={newQ.question}
+                                    onChange={(e) => setNewQ({...newQ, question: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                                    placeholder="Escribe la pregunta aquí..."
+                                />
+                            </div>
+                            
+                            <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                                <label className="block text-sm font-bold text-green-800 mb-1 flex items-center gap-2">
+                                    <CheckCircle size={16} /> Respuesta Correcta
+                                </label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={newQ.correctAnswer}
+                                    onChange={(e) => setNewQ({...newQ, correctAnswer: e.target.value})}
+                                    className="w-full p-2 border border-green-200 rounded-lg focus:outline-none focus:border-green-500"
+                                    placeholder="La respuesta correcta"
+                                />
+                            </div>
+
+                            <div className="bg-red-50 p-4 rounded-lg border border-red-100 space-y-3">
+                                <label className="block text-sm font-bold text-red-800 mb-1 flex items-center gap-2">
+                                    <XCircle size={16} /> Opciones Incorrectas (Distractores)
+                                </label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={newQ.wrong1}
+                                    onChange={(e) => setNewQ({...newQ, wrong1: e.target.value})}
+                                    className="w-full p-2 border border-red-200 rounded-lg focus:outline-none focus:border-red-400"
+                                    placeholder="Opción incorrecta 1"
+                                />
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={newQ.wrong2}
+                                    onChange={(e) => setNewQ({...newQ, wrong2: e.target.value})}
+                                    className="w-full p-2 border border-red-200 rounded-lg focus:outline-none focus:border-red-400"
+                                    placeholder="Opción incorrecta 2"
+                                />
+                                <input 
+                                    required
+                                    type="text" 
+                                    value={newQ.wrong3}
+                                    onChange={(e) => setNewQ({...newQ, wrong3: e.target.value})}
+                                    className="w-full p-2 border border-red-200 rounded-lg focus:outline-none focus:border-red-400"
+                                    placeholder="Opción incorrecta 3"
+                                />
+                            </div>
+
+                            <button type="submit" className="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
+                                <Save size={20} /> Guardar Pregunta
+                            </button>
+                        </form>
+                    </div>
+                );
+            }
+
+            if (showResult) {
+                return (
+                    <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-lg mx-auto animate-in">
+                        <Award className="text-yellow-400 mx-auto mb-4" size={80} />
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">¡Juego Terminado!</h3>
+                        <p className="text-gray-600 mb-6">Tu puntuación final es:</p>
+                        <div className="text-6xl font-black text-teal-600 mb-6">{score} / {questions.length}</div>
+                        
+                        <div className="flex gap-3 justify-center">
+                            <button onClick={() => setMode('menu')} className="px-6 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium text-gray-700">
+                                Menú
+                            </button>
+                            <button onClick={resetGame} className="px-6 py-2 bg-teal-600 hover:bg-teal-700 rounded-lg font-medium text-white flex items-center gap-2">
+                                <RefreshCcw size={18} /> Reintentar
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            const currentQ = questions[currentQIndex];
+
+            return (
+                <div className="max-w-2xl mx-auto">
+                    <div className="mb-6 flex items-center justify-between text-sm text-gray-500 font-medium">
+                        <span>Pregunta {currentQIndex + 1} de {questions.length}</span>
+                        <span className="text-teal-600 bg-teal-50 px-3 py-1 rounded-full">{currentQ.category}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 h-2 rounded-full mb-8 overflow-hidden">
+                        <div 
+                            className="bg-teal-500 h-full transition-all duration-300 ease-out"
+                            style={{ width: `${((currentQIndex + 1) / questions.length) * 100}%` }}
+                        ></div>
+                    </div>
+
+                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl min-h-[300px] flex flex-col relative overflow-hidden">
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-8">{currentQ.question}</h3>
+                        
+                        <div className="space-y-3 flex-grow">
+                            {currentQ.options.map((option, idx) => {
+                                let btnClass = "w-full p-4 text-left rounded-xl border-2 transition-all flex justify-between items-center group ";
+                                
+                                if (selectedOption === null) {
+                                    btnClass += "border-gray-100 hover:border-teal-300 hover:bg-teal-50 text-gray-700";
+                                } else {
+                                    if (option === currentQ.correctAnswer) {
+                                        btnClass += "border-green-500 bg-green-50 text-green-800";
+                                    } else if (option === selectedOption) {
+                                        btnClass += "border-red-500 bg-red-50 text-red-800";
+                                    } else {
+                                        btnClass += "border-gray-100 opacity-50";
+                                    }
+                                }
+
+                                return (
+                                    <button
+                                        key={idx}
+                                        disabled={selectedOption !== null}
+                                        onClick={() => handleAnswer(option)}
+                                        className={btnClass}
+                                    >
+                                        <span className="font-medium">{option}</span>
+                                        {selectedOption !== null && option === currentQ.correctAnswer && (
+                                            <CheckCircle className="text-green-600" size={20} />
+                                        )}
+                                        {selectedOption === option && option !== currentQ.correctAnswer && (
+                                            <XCircle className="text-red-500" size={20} />
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {selectedOption && (
+                            <div className="mt-6 flex justify-end animate-in">
+                                <button 
+                                    onClick={nextQuestion}
+                                    className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg"
+                                >
+                                    {currentQIndex === questions.length - 1 ? 'Ver Resultados' : 'Siguiente'} <ChevronRight size={20} />
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('home');
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Navigation Responsive */}
+                    <nav className="bg-white shadow-sm sticky top-0 z-50">
+                        <div className="max-w-6xl mx-auto px-4">
+                            <div className="flex flex-col md:flex-row justify-between items-center h-auto md:h-16 py-2 md:py-0">
+                                <div 
+                                    className="flex items-center gap-2 font-bold text-xl text-teal-700 cursor-pointer mb-2 md:mb-0"
+                                    onClick={() => setActiveTab('home')}
+                                >
+                                    <Syringe className="rotate-45" size={24} /> 
+                                    Estudio + <span className="text-gray-400 font-light">Relax</span>
+                                </div>
+                                
+                                <div className="flex gap-1 md:gap-4 overflow-x-auto w-full md:w-auto justify-center">
+                                    <button 
+                                        onClick={() => setActiveTab('home')}
+                                        className={`p-2 md:px-4 md:py-2 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base whitespace-nowrap ${activeTab === 'home' ? 'bg-teal-50 text-teal-700 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
+                                    >
+                                        <Home size={18} /> <span className="inline">Inicio</span>
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('letter')}
+                                        className={`p-2 md:px-4 md:py-2 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base whitespace-nowrap ${activeTab === 'letter' ? 'bg-teal-50 text-teal-700 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
+                                    >
+                                        <Heart size={18} /> <span className="inline">Dedicatoria</span>
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('study')}
+                                        className={`p-2 md:px-4 md:py-2 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base whitespace-nowrap ${activeTab === 'study' ? 'bg-teal-50 text-teal-700 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
+                                    >
+                                        <BookOpen size={18} /> <span className="inline">Estudio</span>
+                                    </button>
+                                    <button 
+                                        onClick={() => setActiveTab('relax')}
+                                        className={`p-2 md:px-4 md:py-2 rounded-lg transition-colors flex items-center gap-2 text-sm md:text-base whitespace-nowrap ${activeTab === 'relax' ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
+                                    >
+                                        <Music size={18} /> <span className="inline">Relax</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Main Content Area */}
+                    <main className="max-w-6xl mx-auto px-4 py-8 pb-20 flex-grow w-full">
+                        {activeTab === 'home' && <WelcomeScreen onNavigate={setActiveTab} />}
+                        {activeTab === 'letter' && <LetterSection />}
+                        {activeTab === 'study' && <StudyZone />}
+                        {activeTab === 'relax' && <RelaxZone />}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="bg-white border-t py-8 text-center text-gray-400 text-sm mt-auto">
+                        <p>© {new Date().getFullYear()} Homenaje a la Enfermería. Hecho con ❤️ para ustedes.</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
