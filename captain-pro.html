@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bitacora del Capitan PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Cinzel:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/captain.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        /* Header section */
+        .captain-header {
+            text-align: center;
+            padding: 100px 20px 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .captain-header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+        
+        .captain-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        /* Background elements */
+        .captain-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .waves-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23203a43' fill-opacity='0.5' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation: waveMove 10s linear infinite;
+        }
+        
+        .wave:nth-child(2) {
+            opacity: 0.5;
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+        
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .floating-compass {
+            position: fixed;
+            top: 15%;
+            right: 10%;
+            font-size: 100px;
+            opacity: 0.15;
+            animation: compassFloat 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        @keyframes compassFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .floating-anchor {
+            position: fixed;
+            bottom: 25%;
+            left: 5%;
+            font-size: 80px;
+            opacity: 0.15;
+            animation: anchorSwing 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        @keyframes anchorSwing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        /* Main container */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+        
+        /* Pirate window */
+        .pirate-window {
+            background: #fdfbf7;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            border: 5px solid #5e3b24;
+            box-shadow: 
+                0 0 0 2px #3d2516,
+                10px 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 50px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pirate-titlebar {
+            background: linear-gradient(135deg, #8b0000 0%, #5e3b24 100%);
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3d2516;
+        }
+        
+        .pirate-title {
+            font-family: 'Rye', serif;
+            color: #ffd700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .pirate-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .pirate-control-btn {
+            width: 25px;
+            height: 25px;
+            background: #5e3b24;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+        }
+        
+        .pirate-control-btn:hover {
+            background: #7a4d30;
+            transform: scale(1.1);
+        }
+        
+        .pirate-body {
+            padding: 25px;
+            color: #2c1810;
+        }
+        
+        .pirate-content {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+        
+        .pirate-icon {
+            font-size: 50px;
+            flex-shrink: 0;
+            animation: iconBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .pirate-message h3 {
+            font-family: 'Cinzel', serif;
+            color: #8b0000;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .pirate-message p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #5e3b24;
+        }
+        
+        .details-box {
+            background: rgba(0, 0, 0, 0.05);
+            border: 2px dashed #5e3b24;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: #5e3b24;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+        
+        .details-box .line {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .details-box .label {
+            color: #8b0000;
+            font-weight: bold;
+        }
+        
+        /* Progress bar */
+        .pirate-progress {
+            margin-bottom: 25px;
+        }
+        
+        .pirate-progress-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: #5e3b24;
+            margin-bottom: 8px;
+        }
+        
+        .pirate-progress-bar {
+            height: 30px;
+            background: #2c1810;
+            border-radius: 15px;
+            padding: 3px;
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pirate-progress-fill {
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #ffd700,
+                #ffd700 10px,
+                #daa520 10px,
+                #daa520 20px
+            );
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #2c1810;
+            transition: width 0.5s ease;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0%;
+        }
+        
+        /* Buttons */
+        .pirate-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            min-height: 60px;
+            align-items: center;
+        }
+        
+        .pirate-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            border: none;
+        }
+        
+        .pirate-btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #daa520 100%);
+            color: #5e3b24;
+            border: 3px solid #b8860b;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            z-index: 50;
+        }
+        
+        .pirate-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        .pirate-btn-secondary {
+            background: #5e3b24;
+            color: #ffd700;
+            border: 3px solid #3d2516;
+            z-index: 100;
+        }
+        
+        .pirate-btn-secondary:hover {
+            background: #7a4d30;
+            transform: translateY(-3px);
+        }
+        
+        /* Treasure screen */
+        .treasure-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1a3a4a 0%, #0a1a20 100%);
+            z-index: 2000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            overflow-y: auto;
+        }
+        
+        .treasure-screen.show {
+            display: flex;
+        }
+        
+        .treasure-header {
+            color: #ffd700;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 10px;
+        }
+        
+        .treasure-header h2 {
+            font-size: 2rem;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .treasure-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+        
+        .treasure-coupon {
+            background: #f4e4bc;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            color: #2c1810;
+            border: 10px double #5e3b24;
+            padding: 40px;
+            margin: 30px 0;
+            transform: rotate(-2deg);
+            box-shadow: 
+                0 0 50px rgba(255, 215, 0, 0.3),
+                10px 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: couponAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+        
+        @keyframes couponAppear {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(3deg); }
+            100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+        }
+        
+        .treasure-coupon::before {
+            content: "★";
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            font-size: 70px;
+            color: #ffd700;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            transform: rotate(15deg);
+        }
+        
+        .treasure-coupon::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: -15px;
+            font-size: 50px;
+            color: #5e3b24;
+            opacity: 0.5;
+        }
+        
+        .coupon-title {
+            font-family: 'Rye', serif;
+            font-size: 2.2rem;
+            color: #8b0000;
+            border-bottom: 3px solid #5e3b24;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .coupon-value {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .coupon-from {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #5e3b24;
+            font-style: italic;
+        }
+        
+        .coupon-note {
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 1rem;
+        }
+        
+        .coupon-footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #5e3b24;
+            font-size: 0.75rem;
+            color: #7a4d30;
+        }
+        
+        .treasure-thanks {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Confetti canvas */
+        #captain-confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2001;
+        }
+        
+        /* Mutiny popup */
+        .mutiny-popup {
+            position: fixed;
+            background: #fdfbf7;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            border: 4px solid #8b0000;
+            border-radius: 8px;
+            max-width: 300px;
+            z-index: 1500;
+            animation: popupAppear 0.3s ease;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        @keyframes popupAppear {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        .mutiny-popup .pirate-titlebar {
+            padding: 8px 12px;
+        }
+        
+        .mutiny-popup .pirate-body {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .mutiny-popup p {
+            font-family: 'Cinzel', serif;
+            color: #5e3b24;
+            margin-bottom: 15px;
+        }
+        
+        .btn-close-popup {
+            background: #5e3b24;
+            color: #ffd700;
+            border: 2px solid #3d2516;
+            padding: 10px 20px;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-close-popup:hover {
+            background: #7a4d30;
+        }
+        
+        .btn-reload {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 12px 30px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .btn-reload:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .captain-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pirate-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .pirate-buttons {
+                flex-direction: column;
+            }
+            
+            .pirate-btn {
+                width: 100%;
+            }
+            
+            .treasure-coupon {
+                padding: 25px 20px;
+                transform: rotate(0deg);
+                border-width: 5px;
+            }
+            
+            .treasure-coupon::before {
+                font-size: 45px;
+                top: -15px;
+                right: -10px;
+            }
+            
+            .coupon-title {
+                font-size: 1.6rem;
+            }
+            
+            .floating-compass,
+            .floating-anchor {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="landing-complete.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Volver
+    </a>
+    
+    <!-- Background elements -->
+    <div class="captain-texture"></div>
+    <div class="floating-compass">🧭</div>
+    <div class="floating-anchor">⚓</div>
+    
+    <div class="waves-bg">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    
+    <!-- Header -->
+    <div class="captain-header">
+        <h1>⚓ BITACORA DEL CAPITAN ⚓</h1>
+        <p>Version mejorada con efectos especiales</p>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main-container">
+        <div class="pirate-window" id="mainWindow">
+            <div class="pirate-titlebar">
+                <div class="pirate-title">
+                    <span>🏴‍☠️</span> ALERTA DE NAVEGACION
+                </div>
+                <div class="pirate-controls">
+                    <div class="pirate-control-btn" onclick="spawnPopup()">_</div>
+                    <div class="pirate-control-btn" onclick="spawnPopup()">X</div>
+                </div>
+            </div>
+            
+            <div class="pirate-body">
+                <div class="pirate-content">
+                    <div class="pirate-icon">🧭</div>
+                    <div class="pirate-message">
+                        <h3>CAPITAN! EL BARCO NO AVANZA SIN TI</h3>
+                        <p>Se ha detectado una anomalia magnetica en el puente de mando (Malentendido Severo).</p>
+                    </div>
+                </div>
+                
+                <div class="details-box">
+                    <div class="line"><span class="label">&gt; ESTADO ACTUAL:</span> Extranandote.</div>
+                    <div class="line"><span class="label">&gt; DANOS:</span> Casco sentimental abollado.</div>
+                    <div class="line"><span class="label">&gt; SOLUCION:</span> Aceptar la tregua y sonreir.</div>
+                </div>
+                
+                <div class="pirate-progress">
+                    <div class="pirate-progress-label">Restaurando el buen humor...</div>
+                    <div class="pirate-progress-bar">
+                        <div class="pirate-progress-fill" id="progressBar"></div>
+                    </div>
+                </div>
+                
+                <div class="pirate-buttons">
+                    <button class="pirate-btn pirate-btn-primary" id="btnAccept" onclick="acceptApology()">
+                        ACEPTAR LA PAZ
+                    </button>
+                    <button class="pirate-btn pirate-btn-secondary" id="btnCancel" onmouseover="moveButton()" onclick="moveButton()">
+                        TIRAR AL MAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Treasure screen -->
+    <div class="treasure-screen" id="treasureScreen">
+        <canvas id="captain-confetti"></canvas>
+        
+        <div class="treasure-header">
+            <h2>MAREA EN CALMA!</h2>
+            <p>La tripulacion celebra tu regreso.</p>
+        </div>
+        
+        <div class="treasure-coupon" id="treasureCoupon">
+            <h1 class="coupon-title">TESORO RECLAMADO</h1>
+            
+            <p class="coupon-value">
+                VALE POR:<br>
+                UNA CENA EN CUALQUIERA DE LOS LUGARES DE LOS QUE HABLAMOS
+            </p>
+            
+            <p class="coupon-from">"DE: TU NONO FAVORITO QUE TE OFRECE DISCULPAS SINCERAS."</p>
+            
+            <p class="coupon-note">
+                AHORA CORRELE Y DILE QUE LO QUIERES
+            </p>
+            
+            <div class="coupon-footer">
+                Valido por tiempo indefinido hasta que sonrias.
+            </div>
+        </div>
+        
+        <p class="treasure-thanks">GRACIAS POR NO ABANDONAR EL BARCO</p>
+        
+        <button class="btn-reload" onclick="location.reload()">Volver al mapa</button>
+    </div>
+    
+    <script>
+        // Progress bar animation
+        window.onload = function() {
+            let width = 0;
+            const bar = document.getElementById('progressBar');
+            const texts = ["Izando velas...", "Limpiando la cubierta...", "Preparando ofrenda de paz..."];
+            
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    bar.textContent = "LISTO PARA LA RECONCILIACION!";
+                } else {
+                    width++;
+                    bar.style.width = width + '%';
+                    
+                    if(width < 30) bar.textContent = texts[0];
+                    else if(width < 70) bar.textContent = texts[1];
+                    else bar.textContent = texts[2];
+                }
+            }, 40);
+        };
+        
+        // Escape button logic
+        let scaleSize = 1;
+        
+        function moveButton() {
+            const btnCancel = document.getElementById('btnCancel');
+            const btnAccept = document.getElementById('btnAccept');
+            
+            if(window.innerWidth > 768) {
+                const btnWidth = btnCancel.offsetWidth;
+                const btnHeight = btnCancel.offsetHeight;
+                const newPos = getSafePosition(btnWidth, btnHeight, btnAccept);
+                
+                btnCancel.style.position = 'fixed';
+                btnCancel.style.left = newPos.x + 'px'; 
+                btnCancel.style.top = newPos.y + 'px'; 
+                btnCancel.style.zIndex = 1000;
+            } else {
+                spawnPopup();
+                return;
+            }
+            
+            // Grow accept button
+            if(window.innerWidth > 768) {
+                scaleSize += 0.4;
+                btnAccept.style.transform = `scale(${scaleSize})`;
+                
+                if (scaleSize > 1.8) {
+                    btnAccept.innerText = "SI, MI CAPITAN!";
+                    btnAccept.style.background = "linear-gradient(135deg, #ff4500, #ff6b35)";
+                    btnAccept.style.color = "white";
+                    btnAccept.style.borderColor = "white";
+                }
+            }
+        }
+        
+        function getSafePosition(w, h, avoidElement) {
+            const margin = 30;
+            const maxAttempts = 50;
+            const avoidRect = avoidElement.getBoundingClientRect();
+            
+            let newX, newY;
+            let safe = false;
+            
+            for(let i=0; i<maxAttempts; i++) {
+                newX = Math.random() * (window.innerWidth - w - 20);
+                newY = Math.random() * (window.innerHeight - h - 20);
+                newX = Math.max(10, newX);
+                newY = Math.max(10, newY);
+                
+                const cancelRect = {
+                    left: newX,
+                    right: newX + w,
+                    top: newY,
+                    bottom: newY + h
+                };
+                
+                if (
+                    cancelRect.right < (avoidRect.left - margin) ||
+                    cancelRect.left > (avoidRect.right + margin) ||
+                    cancelRect.bottom < (avoidRect.top - margin) ||
+                    cancelRect.top > (avoidRect.bottom + margin)
+                ) {
+                    safe = true;
+                    break;
+                }
+            }
+            
+            if(!safe) return { x: 20, y: 20 };
+            return { x: newX, y: newY };
+        }
+        
+        function spawnPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'mutiny-popup';
+            
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const x = Math.max(10, Math.random() * (w - 300));
+            const y = Math.max(10, Math.random() * (h - 200));
+            
+            popup.style.left = (w < 400 ? 10 : x) + 'px';
+            popup.style.top = y + 'px';
+            popup.style.zIndex = 1500 + document.getElementsByClassName('mutiny-popup').length;
+            
+            popup.innerHTML = `
+                <div class="pirate-titlebar">
+                    <div class="pirate-title" style="font-size: 0.9rem;">MOTIN DETECTADO</div>
+                    <div class="pirate-controls">
+                        <div class="pirate-control-btn" onclick="this.closest('.mutiny-popup').remove()">X</div>
+                    </div>
+                </div>
+                <div class="pirate-body">
+                    <p>Esa opcion no esta en el mapa, Capitan!</p>
+                    <button class="btn-close-popup" onclick="this.closest('.mutiny-popup').remove()">Entendido</button>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+        }
+        
+        function acceptApology() {
+            document.getElementById('mainWindow').style.display = 'none';
+            
+            // Remove all popups
+            document.querySelectorAll('.mutiny-popup').forEach(p => p.remove());
+            
+            // Reset cancel button
+            const btnCancel = document.getElementById('btnCancel');
+            btnCancel.style.position = '';
+            btnCancel.style.left = '';
+            btnCancel.style.top = '';
+            
+            // Show treasure screen
+            document.getElementById('treasureScreen').classList.add('show');
+            
+            // Start confetti
+            startConfetti();
+            
+            // Play sound
+            try {
+                const audio = new Audio('https://www.myinstants.com/media/sounds/tada_1.mp3');
+                audio.volume = 0.5;
+                audio.play();
+            } catch(e) { console.log("Audio blocked"); }
+        }
+        
+        function startConfetti() {
+            const canvas = document.getElementById('captain-confetti');
+            const ctx = canvas.getContext('2d');
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            
+            const particles = [];
+            const colors = ['#ffd700', '#8b0000', '#ffffff', '#f4e4bc', '#daa520', '#5e3b24'];
+            
+            function Particle() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.rotation = Math.random() * 360;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.size = Math.random() * 12 + 5;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotationSpeed = Math.random() * 3 - 1.5;
+            }
+            
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach((p) => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += p.rotationSpeed;
+                    
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                    
+                    if (p.y > height) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            });
+        }
+    </script>
+</body>
+</html>

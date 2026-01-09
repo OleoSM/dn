@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bitácora de Reconciliación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* --- ESTÉTICA PIRATA / NÁUTICA --- */
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            font-family: 'Cinzel', serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            user-select: none;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+            opacity: 0.3;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Canvas del Confeti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            pointer-events: none;
+            display: none;
+        }
+
+        .window {
+            background: #fdfbf7;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            border: 4px solid #5e3b24;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.6);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+            border-radius: 4px;
+            margin: 20px;
+        }
+
+        .title-bar {
+            background: #8b0000;
+            border-bottom: 2px solid #5e3b24;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffd700;
+        }
+
+        .title-text {
+            font-family: 'Rye', serif;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .title-controls {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .control-btn {
+            width: 20px;
+            height: 20px;
+            background: #5e3b24;
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 2px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+        
+        .control-btn:hover { background: #7a4d30; }
+
+        .window-body { padding: 20px; color: #2c1810; }
+
+        .error-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .error-icon {
+            font-size: 40px;
+            color: #8b0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message {
+            margin: 0;
+            line-height: 1.4;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .details-box {
+            background: rgba(0,0,0,0.05);
+            border: 1px dashed #5e3b24;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #5e3b24;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .progress-container { margin-bottom: 20px; }
+        .progress-label { font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
+        .progress-bar-bg {
+            height: 25px;
+            background: #2c1810;
+            border-radius: 12px;
+            padding: 2px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .progress-fill {
+            height: 100%;
+            background: repeating-linear-gradient(45deg, #ffd700, #ffd700 10px, #daa520 10px, #daa520 20px);
+            width: 0%;
+            transition: width 0.5s;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2c1810;
+            font-weight: bold;
+            font-size: 0.8rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-shadow: none;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            align-items: center;
+            min-height: 60px;
+            flex-wrap: wrap;
+        }
+
+        .retro-btn {
+            background: #5e3b24; 
+            color: #ffd700; 
+            border: 2px solid #2c1810;
+            padding: 10px 25px;
+            font-family: 'Rye', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            min-width: 100px;
+            white-space: nowrap;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .retro-btn:hover {
+            background: #7a4d30;
+            transform: translateY(-2px);
+        }
+
+        #btnAccept {
+            background: #ffd700; 
+            color: #5e3b24;
+            border: 2px solid #daa520;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center center;
+            z-index: 50; /* Z-index base */
+        }
+        
+        #btnAccept:hover {
+            background: #ffed4a;
+            box-shadow: 0 0 15px #ffd700;
+        }
+
+        #btnCancel {
+            z-index: 100; /* Siempre encima para que no se oculte detrás */
+        }
+
+        .popup {
+            position: fixed;
+            width: 280px;
+            animation: popIn 0.2s;
+            background: #fdfbf7;
+            border: 3px solid #8b0000;
+            margin: 0;
+            max-width: 90vw;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        /* Pantalla de Recompensa */
+        #bsod {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+            color: #ffd700;
+            font-family: 'Cinzel', serif;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 200;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
+        }
+        
+        /* Animación Fanfarria de Entrada */
+        @keyframes fanfareEntrance {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(5deg); }
+            70% { transform: scale(0.95) rotate(-3deg); }
+            100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+        }
+
+        /* Estilo del Cupón */
+        .coupon {
+            background: #f4e4bc;
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            color: #2c1810;
+            border: 8px double #5e3b24;
+            padding: 40px;
+            margin: 30px 0;
+            transform: rotate(-2deg);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .fanfare-active {
+            animation: fanfareEntrance 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+        
+        .coupon::after {
+            content: "★";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 60px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px #000;
+            transform: rotate(15deg);
+        }
+
+        .coupon h1 {
+            font-family: 'Rye', serif;
+            font-size: 2.2rem;
+            margin: 0;
+            border-bottom: 2px solid #5e3b24;
+            padding-bottom: 15px;
+            line-height: 1.2;
+            color: #8b0000;
+        }
+
+        .coupon h2 {
+            font-size: 1.1rem;
+            margin: 25px 0;
+            text-transform: uppercase;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        .coupon p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .note-text {
+            font-family: 'Courier New', monospace; 
+            font-weight: bold; 
+            color: #5e3b24; 
+            margin-top: 15px;
+        }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 600px) {
+            .window { width: 95%; margin: 10px auto; }
+            .error-content { flex-direction: column; align-items: center; text-align: center; }
+            .buttons { flex-direction: column; gap: 15px; padding-top: 10px; }
+            .retro-btn { width: 100%; font-size: 1rem; }
+            .coupon { padding: 25px 20px; transform: rotate(0deg); margin: 15px 0; border-width: 4px; }
+            .coupon h1 { font-size: 1.6rem; }
+            .coupon h2 { font-size: 1rem; }
+            .coupon p { font-size: 1rem; }
+            .coupon::after { font-size: 40px; top: -15px; right: -10px; }
+            #bsod { justify-content: flex-start; padding-top: 40px; }
+            
+            @keyframes fanfareEntrance {
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); opacity: 1; }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="window" id="mainWindow">
+        <div class="title-bar">
+            <div class="title-text">
+                <span>⚓</span> BITÁCORA DEL CAPITÁN
+            </div>
+            <div class="title-controls">
+                <div class="control-btn" onclick="spawnPopup()">_</div>
+                <div class="control-btn" onclick="spawnPopup()">X</div>
+            </div>
+        </div>
+        
+        <div class="window-body">
+            <div class="error-content">
+                <div class="error-icon">🧭</div>
+                <div class="message">
+                    ¡CAPITÁN! EL BARCO NO AVANZA SIN TI.<br>
+                    <span style="font-weight: normal; font-size: 0.95em;">Se ha detectado una anomalía magnética en el puente de mando (Malentendido Severo).</span>
+                </div>
+            </div>
+
+            <div class="details-box">
+                > ESTADO ACTUAL: Extrañándote.<br>
+                > DAÑOS: Casco sentimental abollado.<br>
+                > SOLUCIÓN REQUERIDA: Aceptar la tregua y sonreír.
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-label">Restaurando el buen humor...</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="retro-btn" id="btnAccept" onclick="acceptApology()">ACEPTAR LA PAZ</button>
+                <button class="retro-btn" id="btnCancel" onmouseover="moveButton()" onclick="moveButton()">TIRAR AL MAR TODO</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bsod">
+        <h2 style="letter-spacing: 3px; margin-bottom: 10px; font-size: 1.5rem; color: #ffd700;">¡MAREA EN CALMA!</h2>
+        <p style="margin-bottom: 5px;">La tripulación celebra tu regreso.</p>
+        
+        <div class="coupon" id="treasureCoupon">
+            <h1>TESORO RECLAMADO</h1>
+            
+            <h2>VALE POR: <br>UNA CENA EN CUALQUIERA DE LOS LUGARES DE LOS QUE HABLAMOS</h2>
+            
+            <p class="note-text">"DE: TU ÑOÑO FAVORITO QUE TE OFRECE DISCULPAS SINCERAS."</p>
+            
+            <p style="margin-top: 20px; font-size: 0.9rem; font-style: italic;">
+                AHORA CORRELE Y DILE QUE LO QUIERES 
+            </p>
+
+            <div style="margin-top: 25px; border-top: 1px solid #5e3b24; padding-top:10px; font-size: 0.7rem;">
+                Válido por tiempo indefinido hasta que sonrías.
+            </div>
+        </div>
+
+        <p style="font-size: 1.1rem; margin-bottom: 20px;">❤️ GRACIAS POR NO ABANDONAR EL BARCO ❤️</p>
+        
+        <button class="retro-btn" onclick="location.reload()" style="background: transparent; border: 1px solid #ffd700; margin-bottom: 30px;">Volver al mapa</button>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURACIÓN INICIAL ---
+        window.onload = function() {
+            let width = 0;
+            const bar = document.getElementById('progressBar');
+            const texts = ["Izaaando velas...", "Limpiando la cubierta...", "Preparando ofrenda de paz..."];
+            
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    bar.textContent = "¡LISTO PARA LA RECONCILIACIÓN!";
+                } else {
+                    width++;
+                    bar.style.width = width + '%';
+                    
+                    if(width < 30) bar.textContent = texts[0];
+                    else if(width < 70) bar.textContent = texts[1];
+                    else bar.textContent = texts[2];
+                }
+            }, 40);
+        };
+
+        // --- 2. LÓGICA DEL BOTÓN ESCURRIDIZO (MEJORADA) ---
+        let scaleSize = 1;
+
+        function moveButton() {
+            const btnCancel = document.getElementById('btnCancel');
+            const btnAccept = document.getElementById('btnAccept');
+
+            // Solo hacemos que huya en pantallas grandes
+            if(window.innerWidth > 768) {
+                const btnWidth = btnCancel.offsetWidth;
+                const btnHeight = btnCancel.offsetHeight;
+                
+                // Obtener posición segura que NO se superponga con el botón Aceptar
+                const newPos = getSafePosition(btnWidth, btnHeight, btnAccept);
+                
+                btnCancel.style.position = 'fixed';
+                btnCancel.style.left = newPos.x + 'px'; 
+                btnCancel.style.top = newPos.y + 'px'; 
+                
+                // Aseguramos z-index alto para que si por milagro cae cerca, esté encima visualmente
+                // (aunque la lógica matemática lo evitará)
+                btnCancel.style.zIndex = 1000;
+            } else {
+                spawnPopup();
+                return;
+            }
+
+            // Efecto de crecimiento del botón Aceptar
+            if(window.innerWidth > 768) {
+                scaleSize += 0.4;
+                btnAccept.style.transform = `scale(${scaleSize})`;
+                
+                if (scaleSize > 1.8) {
+                    btnAccept.innerText = "¡SÍ, MI CAPITÁN!";
+                    btnAccept.style.background = "#ff4500"; 
+                    btnAccept.style.color = "white";
+                    btnAccept.style.borderColor = "white";
+                    btnAccept.style.zIndex = 50; // Mantener z-index base
+                }
+            }
+        }
+
+        // --- FUNCIÓN ANTI-SUPERPOSICIÓN ---
+        function getSafePosition(w, h, avoidElement) {
+            const margin = 30; // Margen de seguridad extra
+            const maxAttempts = 50;
+            
+            // Rectángulo del elemento a evitar (Botón Aceptar)
+            // Usamos getBoundingClientRect para saber dónde está REALMENTE en la pantalla ahora mismo
+            const avoidRect = avoidElement.getBoundingClientRect();
+            
+            let newX, newY;
+            let safe = false;
+
+            for(let i=0; i<maxAttempts; i++) {
+                // Generar coordenadas aleatorias dentro del viewport
+                newX = Math.random() * (window.innerWidth - w - 20);
+                newY = Math.random() * (window.innerHeight - h - 20);
+                
+                // Asegurar que no se salga de los bordes mínimos
+                newX = Math.max(10, newX);
+                newY = Math.max(10, newY);
+
+                // Comprobar colisión
+                // Definimos el rectángulo hipotético del botón Cancelar en la nueva posición
+                const cancelRect = {
+                    left: newX,
+                    right: newX + w,
+                    top: newY,
+                    bottom: newY + h
+                };
+
+                // Comprobar si se superponen
+                // Se expande el avoidRect con 'margin' para dar aire
+                if (
+                    cancelRect.right < (avoidRect.left - margin) ||
+                    cancelRect.left > (avoidRect.right + margin) ||
+                    cancelRect.bottom < (avoidRect.top - margin) ||
+                    cancelRect.top > (avoidRect.bottom + margin)
+                ) {
+                    safe = true;
+                    break; // ¡Encontramos un sitio seguro!
+                }
+            }
+
+            // Si tras 50 intentos no encuentra sitio (muy raro), lo pone en la esquina superior izquierda
+            if(!safe) {
+                return { x: 20, y: 20 };
+            }
+
+            return { x: newX, y: newY };
+        }
+
+        function spawnPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'window popup';
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const x = Math.max(10, Math.random() * (w - 300));
+            const y = Math.max(10, Math.random() * (h - 200));
+            
+            popup.style.left = (w < 400 ? 10 : x) + 'px'; 
+            popup.style.top = y + 'px';
+            popup.style.zIndex = 200 + document.getElementsByClassName('popup').length;
+
+            popup.innerHTML = `
+                <div class="title-bar">
+                    <div class="title-text">⚠️ MOTÍN DETECTADO</div>
+                    <div class="title-controls"><div class="control-btn" onclick="this.parentElement.parentElement.parentElement.remove()">X</div></div>
+                </div>
+                <div class="window-body" style="text-align:center;">
+                    <p>¡Esa opción no está en el mapa, Capitán!</p>
+                    <button class="retro-btn" onclick="this.parentElement.parentElement.remove()" style="font-size: 0.9rem;">Entendido</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        // --- 3. LÓGICA DE ACEPTACIÓN Y CELEBRACIÓN ---
+        function acceptApology() {
+            document.getElementById('mainWindow').style.display = 'none';
+            const popups = document.querySelectorAll('.popup');
+            popups.forEach(p => p.remove());
+            
+            const bsod = document.getElementById('bsod');
+            bsod.style.display = 'flex';
+            
+            document.getElementById('treasureCoupon').classList.add('fanfare-active');
+
+            startConfetti();
+
+            try {
+                const audio = new Audio('https://www.myinstants.com/media/sounds/tada_1.mp3');
+                audio.volume = 0.5;
+                audio.play();
+            } catch(e) { console.log("Audio bloqueado"); }
+        }
+
+        // --- 4. MOTOR DE CONFETI ---
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            const particles = [];
+            const colors = ['#ffd700', '#8b0000', '#ffffff', '#f4e4bc', '#daa520'];
+
+            function Particle() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.rotation = Math.random() * 360;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.size = Math.random() * 10 + 5;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotationSpeed = Math.random() * 2 - 1;
+            }
+
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach((p) => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += p.rotationSpeed;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                    if (p.y > height) { p.y = -20; p.x = Math.random() * width; }
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            });
+        }
+    </script>
+</body>
+</html>

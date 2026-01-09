@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Experiencias</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <!-- Fondos -->
+    <div class="bg-gradient"></div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Experiencias</div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#experiencias">Menu</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero" id="inicio">
+        <div class="hero-badge">
+            <span></span>
+            Contenido Exclusivo
+        </div>
+        <h1>
+            Descubre <span class="gradient-text">Momentos</span><br>
+            Inolvidables
+        </h1>
+        <p>
+            Tres experiencias interactivas creadas especialmente para ti. 
+            Cada una cuenta una historia diferente.
+        </p>
+        <div class="hero-cta">
+            <a href="#experiencias" class="btn btn-primary">
+                Ver Experiencias
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECCION DE EXPERIENCIAS
+         ============================================ -->
+    <section class="experiences-section" id="experiencias">
+        <div class="section-header">
+            <h2>Elige tu <span class="gradient-text">Experiencia</span></h2>
+            <p>Explora las experiencias interactivas creadas especialmente para ti</p>
+        </div>
+
+        <div class="experiences-grid">
+            <!-- Columna Originales -->
+            <div class="experience-column">
+                <h3>
+                    Versiones Originales
+                    <span>Abrir en nueva pagina</span>
+                </h3>
+                <div class="cards-list">
+                    <!-- Flores Original -->
+                    <a href="flower.html" target="_blank" class="exp-card exp-card-flowers">
+                        <span class="version-badge version-original">Original</span>
+                        <div class="exp-card-icon">🌻</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Animacion</span>
+                            <h4>Flores Amarillas</h4>
+                            <p>Animacion original con flores y efectos neon</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Enfermeria Original -->
+                    <a href="index.html" target="_blank" class="exp-card exp-card-nurse">
+                        <span class="version-badge version-original">Original</span>
+                        <div class="exp-card-icon">💉</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Interactivo</span>
+                            <h4>Dia de la Enfermera</h4>
+                            <p>Trivia basica, carta y musica relajante</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Capitan Original -->
+                    <a href="captain.html" target="_blank" class="exp-card exp-card-captain">
+                        <span class="version-badge version-original">Original</span>
+                        <div class="exp-card-icon">⚓</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Aventura</span>
+                            <h4>Bitacora del Capitan</h4>
+                            <p>Interfaz pirata con cupon de reconciliacion</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna Mejoradas -->
+            <div class="experience-column">
+                <h3>
+                    Versiones Mejoradas
+                    <span>Abrir en nueva pagina</span>
+                </h3>
+                <div class="cards-list">
+                    <!-- Flores Mejorada -->
+                    <a href="flower-pro.html" target="_blank" class="exp-card exp-card-flowers">
+                        <span class="version-badge version-mejorada">Mejorada</span>
+                        <div class="exp-card-icon">🌻</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Animacion PRO</span>
+                            <h4>Flores Amarillas 2.0</h4>
+                            <p>Aurora boreal, particulas y corazones flotantes</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Enfermeria Mejorada -->
+                    <a href="nurse-pro.html" target="_blank" class="exp-card exp-card-nurse">
+                        <span class="version-badge version-mejorada">Mejorada</span>
+                        <div class="exp-card-icon">💉</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Quiz Avanzado</span>
+                            <h4>Trivia Enfermeria PRO</h4>
+                            <p>15 preguntas dificiles con explicaciones</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- Capitan Mejorada -->
+                    <a href="captain-pro.html" target="_blank" class="exp-card exp-card-captain">
+                        <span class="version-badge version-mejorada">Mejorada</span>
+                        <div class="exp-card-icon">⚓</div>
+                        <div class="exp-card-content">
+                            <span class="exp-card-tag">Aventura PRO</span>
+                            <h4>El Tesoro del Capitan 2.0</h4>
+                            <p>Olas animadas, confetti y efectos mejorados</p>
+                        </div>
+                        <div class="exp-card-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Hecho con <span class="heart">&#9829;</span> para alguien especial</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Crear estrellas de fondo
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            if (!starsContainer) return;
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    background: white;
+                    border-radius: 50%;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    opacity: ${Math.random() * 0.7};
+                    animation: twinkle ${2 + Math.random() * 3}s ease-in-out infinite;
+                `;
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>

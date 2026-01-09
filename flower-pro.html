@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/flowers.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0f;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <a href="landing-complete.html" class="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Volver
+    </a>
+
+    <section class="flowers-section">
+        <!-- Aurora de fondo -->
+        <div class="aurora-bg">
+            <div class="aurora-layer"></div>
+            <div class="aurora-layer"></div>
+        </div>
+        
+        <!-- Particulas -->
+        <div class="particles-container" id="particles"></div>
+        
+        <!-- Corazones -->
+        <div class="hearts-container" id="hearts"></div>
+        
+        <!-- Contenido -->
+        <div class="flowers-container">
+            <!-- Titulo -->
+            <div class="flowers-title">
+                <h2>Flores Amarillas</h2>
+                <p>Para alguien muy especial</p>
+            </div>
+            
+            <!-- Grupo de flores -->
+            <div class="flowers-group">
+                <!-- Flor 1 -->
+                <div class="flower">
+                    <div class="flower-head">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="flower-center"></div>
+                    </div>
+                    <div class="stem">
+                        <div class="leaf leaf-left"></div>
+                        <div class="leaf leaf-right"></div>
+                    </div>
+                    <div class="flower-lights" id="lights1"></div>
+                </div>
+                
+                <!-- Flor 2 -->
+                <div class="flower" style="animation-delay: -1.5s; transform: scale(0.9);">
+                    <div class="flower-head">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="flower-center"></div>
+                    </div>
+                    <div class="stem">
+                        <div class="leaf leaf-left"></div>
+                        <div class="leaf leaf-right"></div>
+                    </div>
+                    <div class="flower-lights" id="lights2"></div>
+                </div>
+                
+                <!-- Flor 3 -->
+                <div class="flower" style="animation-delay: -3s; transform: scale(0.95);">
+                    <div class="flower-head">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="flower-center"></div>
+                    </div>
+                    <div class="stem">
+                        <div class="leaf leaf-left"></div>
+                        <div class="leaf leaf-right"></div>
+                    </div>
+                    <div class="flower-lights" id="lights3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Piso reflectante -->
+        <div class="floor-reflection"></div>
+    </section>
+
+    <script>
+        // Crear particulas
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = `particle ${Math.random() > 0.5 ? 'particle-gold' : 'particle-cyan'}`;
+            particle.style.width = (Math.random() * 8 + 4) + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            container.appendChild(particle);
+        }
+
+        // Crear corazones flotantes
+        const heartsContainer = document.getElementById('hearts');
+        setInterval(() => {
+            if (document.querySelectorAll('.floating-heart').length < 15) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                heartsContainer.appendChild(heart);
+                setTimeout(() => heart.remove(), 8000);
+            }
+        }, 1000);
+
+        // Crear luces flotantes para cada flor
+        document.querySelectorAll('.flower-lights').forEach(lightsContainer => {
+            for (let i = 0; i < 8; i++) {
+                const light = document.createElement('div');
+                light.className = `light-orb ${Math.random() > 0.5 ? 'gold' : 'cyan'}`;
+                light.style.left = (Math.random() * 100) + '%';
+                light.style.animationDelay = (Math.random() * 4) + 's';
+                lightsContainer.appendChild(light);
+            }
+        });
+    </script>
+</body>
+</html>

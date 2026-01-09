@@ -1,0 +1,663 @@
+/* ============================================
+   LANDING PAGE - ESTILOS BASE
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #ec4899;
+    --accent: #14b8a6;
+    --gold: #ffd700;
+    --dark: #0f172a;
+    --light: #f8fafc;
+    --nurse-primary: #0d9488;
+    --nurse-secondary: #14b8a6;
+    --captain-primary: #5e3b24;
+    --captain-secondary: #8b0000;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark);
+    color: var(--light);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ============================================
+   FONDOS ANIMADOS
+   ============================================ */
+
+.bg-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+}
+
+.bg-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    top: -200px;
+    right: -200px;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    bottom: -150px;
+    left: -150px;
+    animation-delay: -7s;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, var(--secondary), #f59e0b);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -14s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Estrellas */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 2rem;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+nav {
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a:hover { color: white; }
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after { width: 100%; }
+
+/* ============================================
+   HERO
+   ============================================ */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 2rem 60px;
+    position: relative;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50px;
+    font-size: 0.875rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease;
+}
+
+.hero-badge span {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.8s ease 0.2s backwards;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.8s ease 0.4s backwards;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease 0.6s backwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+.btn-nurse {
+    background: linear-gradient(135deg, var(--nurse-primary), var(--nurse-secondary));
+    color: white;
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold), #daa520);
+    color: var(--captain-primary);
+}
+
+/* ============================================
+   SECCIONES GENERALES
+   ============================================ */
+
+.section {
+    padding: 100px 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* ============================================
+   CARDS GRID
+   ============================================ */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   CARDS DE EXPERIENCIAS
+   ============================================ */
+
+.experiences-section {
+    padding: 80px 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.experiences-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+@media (max-width: 1024px) {
+    .experiences-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+}
+
+.experience-column h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.experience-column h3 span {
+    opacity: 0.6;
+    font-size: 0.9rem;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.exp-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    gap: 1.25rem;
+}
+
+.exp-card:hover {
+    transform: translateY(-5px) translateX(5px);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.exp-card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.exp-card-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.15;
+    background: linear-gradient(135deg, white, transparent);
+}
+
+.exp-card-flowers .exp-card-icon {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    box-shadow: 0 0 20px rgba(253, 221, 37, 0.3);
+}
+
+.exp-card-nurse .exp-card-icon {
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.exp-card-captain .exp-card-icon {
+    background: linear-gradient(135deg, #5e3b24, #8b5a2b);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.exp-card-content {
+    flex: 1;
+}
+
+.exp-card-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.exp-card-flowers .exp-card-tag {
+    background: rgba(253, 221, 37, 0.2);
+    color: #fddd25;
+}
+
+.exp-card-nurse .exp-card-tag {
+    background: rgba(20, 184, 166, 0.2);
+    color: #14b8a6;
+}
+
+.exp-card-captain .exp-card-tag {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+}
+
+.exp-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.exp-card p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+}
+
+.exp-card-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.exp-card:hover .exp-card-arrow {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.exp-card-arrow svg {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Efecto glow en hover */
+.exp-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.exp-card-flowers::after {
+    background: radial-gradient(circle at 30% 50%, rgba(253, 221, 37, 0.1) 0%, transparent 60%);
+}
+
+.exp-card-nurse::after {
+    background: radial-gradient(circle at 30% 50%, rgba(20, 184, 166, 0.1) 0%, transparent 60%);
+}
+
+.exp-card-captain::after {
+    background: radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+}
+
+.exp-card:hover::after {
+    opacity: 1;
+}
+
+/* Badge de version */
+.version-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.version-original {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.version-mejorada {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 4rem;
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+}
+
+footer .heart {
+    color: var(--secondary);
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.15); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    nav { display: none; }
+    
+    .cards-grid { grid-template-columns: 1fr; }
+    
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section { padding: 60px 1rem; }
+}

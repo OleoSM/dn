@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Experiencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #14b8a6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Fondo animado con gradientes */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
+
+        .bg-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), #f59e0b);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Partículas de estrellas */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 2rem 60px;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-badge span {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.6s backwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s ease infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards Section */
+        .cards-section {
+            padding: 80px 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.8) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .card-image {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        /* Visual previews para cada card */
+        .card-preview {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Flores */
+        .card-flowers .card-preview {
+            background: linear-gradient(135deg, #000 0%, #1a1a2e 100%);
+        }
+
+        .flower-visual {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 55px;
+            background: linear-gradient(135deg, #fddd25, #f9fd25);
+            border-radius: 50% 50% 50% 50%;
+            transform-origin: bottom center;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg) translateY(-30px); }
+        .petal:nth-child(2) { transform: rotate(72deg) translateY(-30px); }
+        .petal:nth-child(3) { transform: rotate(144deg) translateY(-30px); }
+        .petal:nth-child(4) { transform: rotate(216deg) translateY(-30px); }
+        .petal:nth-child(5) { transform: rotate(288deg) translateY(-30px); }
+
+        .flower-center {
+            position: absolute;
+            width: 35px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .stem {
+            position: absolute;
+            width: 8px;
+            height: 80px;
+            background: linear-gradient(to top, #14757a, #39c6d6);
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+
+        .card:hover .flower-visual {
+            animation: flowerDance 1s ease-in-out infinite;
+        }
+
+        @keyframes flowerDance {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        /* Particles flotantes */
+        .floating-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            animation: floatParticle 3s ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+            50% { transform: translateY(-20px) scale(0.5); opacity: 0.3; }
+        }
+
+        /* Enfermeria */
+        .card-nurse .card-preview {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+        }
+
+        .nurse-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heart-icon {
+            font-size: 60px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+        }
+
+        .stethoscope-wrap {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .stat-pill:nth-child(1) { animation-delay: 0.1s; }
+        .stat-pill:nth-child(2) { animation-delay: 0.2s; }
+        .stat-pill:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Captain */
+        .card-captain .card-preview {
+            background: linear-gradient(135deg, #5e3b24, #8b5a2b);
+            position: relative;
+        }
+
+        .captain-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .compass-icon {
+            font-size: 70px;
+            animation: compassRotate 4s linear infinite;
+        }
+
+        @keyframes compassRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .treasure-text {
+            font-family: 'Rye', serif;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .anchor-icon {
+            font-size: 40px;
+            opacity: 0.5;
+            animation: anchorSwing 3s ease-in-out infinite;
+        }
+
+        @keyframes anchorSwing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 1.5rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-flowers .card-tag { background: rgba(253, 221, 37, 0.2); color: #fddd25; }
+        .card-nurse .card-tag { background: rgba(20, 184, 166, 0.2); color: var(--accent); }
+        .card-captain .card-tag { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-weight: 600;
+            transition: gap 0.3s ease;
+        }
+
+        .card:hover .card-link {
+            gap: 1rem;
+        }
+
+        .card-link svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-link svg {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        footer .heart {
+            color: var(--secondary);
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+                padding: 0 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Cursor personalizado */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        @media (max-width: 768px) {
+            .cursor { display: none; }
+        }
+
+        /* Glowing effect on cards */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .card-flowers::after {
+            background: radial-gradient(circle at center, rgba(253, 221, 37, 0.2) 0%, transparent 70%);
+        }
+
+        .card-nurse::after {
+            background: radial-gradient(circle at center, rgba(20, 184, 166, 0.2) 0%, transparent 70%);
+        }
+
+        .card-captain::after {
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor personalizado -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Fondo -->
+    <div class="bg-gradient"></div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Estrellas -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Experiencias</div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#experiencias">Experiencias</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-badge">
+            <span></span>
+            Nuevo contenido disponible
+        </div>
+        <h1>
+            Descubre <span class="gradient-text">Momentos</span><br>
+            Inolvidables
+        </h1>
+        <p>
+            Explora experiencias interactivas creadas especialmente para ti. 
+            Cada una cuenta una historia diferente.
+        </p>
+        <div class="hero-cta">
+            <a href="#experiencias" class="btn btn-primary">
+                Ver Experiencias
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="#contacto" class="btn btn-secondary">
+                Saber Mas
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="cards-section" id="experiencias">
+        <div class="section-header">
+            <h2>Elige tu Experiencia</h2>
+            <p>Tres mundos diferentes te esperan. Cada uno con su propia magia.</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Card Flores -->
+            <a href="flower.html" class="card card-flowers">
+                <div class="card-image">
+                    <div class="card-preview">
+                        <div class="flower-visual">
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="petal"></div>
+                            <div class="flower-center"></div>
+                            <div class="stem"></div>
+                        </div>
+                        <div class="floating-particle" style="top: 20%; left: 20%; animation-delay: 0s;"></div>
+                        <div class="floating-particle" style="top: 30%; right: 25%; animation-delay: 0.5s;"></div>
+                        <div class="floating-particle" style="bottom: 40%; left: 30%; animation-delay: 1s;"></div>
+                        <div class="floating-particle" style="top: 50%; right: 20%; animation-delay: 1.5s;"></div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <span class="card-tag">Animacion</span>
+                    <h3>Flores Amarillas</h3>
+                    <p>Una hermosa animacion de flores que florecen con efectos de luz neon y corazones flotantes.</p>
+                    <span class="card-link">
+                        Explorar
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Card Enfermeria -->
+            <a href="index.html" class="card card-nurse">
+                <div class="card-image">
+                    <div class="card-preview">
+                        <div class="nurse-visual">
+                            <div class="heart-icon">&#10084;</div>
+                            <div class="stethoscope-wrap">
+                                <div class="stat-pill">Trivia</div>
+                                <div class="stat-pill">Musica</div>
+                                <div class="stat-pill">Carta</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <span class="card-tag">Interactivo</span>
+                    <h3>Dia de la Enfermera</h3>
+                    <p>Un homenaje especial con trivia de enfermeria, carta dedicatoria y musica relajante para estudiar.</p>
+                    <span class="card-link">
+                        Descubrir
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Card Captain -->
+            <a href="captain.html" class="card card-captain">
+                <div class="card-image">
+                    <div class="card-preview">
+                        <div class="captain-visual">
+                            <div class="compass-icon">&#9788;</div>
+                            <div class="treasure-text">BITACORA DEL CAPITAN</div>
+                            <div class="anchor-icon">&#9875;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <span class="card-tag">Aventura</span>
+                    <h3>El Tesoro del Capitan</h3>
+                    <p>Una experiencia pirata interactiva con cupon de cena, animaciones de confeti y efectos divertidos.</p>
+                    <span class="card-link">
+                        Zarpar
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <p>Hecho con <span class="heart">&#9829;</span> para alguien especial</p>
+    </footer>
+
+    <script>
+        // Generar estrellas
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Cursor personalizado
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover en cards - agrandar cursor
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                cursor.style.borderColor = '#fff';
+            });
+            card.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = '';
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax en orbes
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.orb').forEach((orb, i) => {
+                const speed = (i + 1) * 20;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+
+        // Intersection Observer para animaciones
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

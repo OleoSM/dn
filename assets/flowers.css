@@ -1,0 +1,345 @@
+/* ============================================
+   SECCION FLORES AMARILLAS - MEJORADA
+   ============================================ */
+
+.flowers-section {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0a0a0f 0%, #0d1117 50%, #0a0a0f 100%);
+}
+
+/* Aurora Boreal de Fondo */
+.aurora-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.aurora-layer {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        transparent 0deg,
+        rgba(57, 198, 214, 0.1) 60deg,
+        rgba(253, 221, 37, 0.15) 120deg,
+        transparent 180deg,
+        rgba(236, 72, 153, 0.1) 240deg,
+        rgba(99, 102, 241, 0.1) 300deg,
+        transparent 360deg
+    );
+    animation: rotateAurora 30s linear infinite;
+}
+
+.aurora-layer:nth-child(2) {
+    animation-duration: 25s;
+    animation-direction: reverse;
+    opacity: 0.7;
+}
+
+@keyframes rotateAurora {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Particulas flotantes mejoradas */
+.particles-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatParticle 8s ease-in-out infinite;
+}
+
+.particle-gold {
+    background: radial-gradient(circle, #ffd700, #ffeb3b);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.particle-cyan {
+    background: radial-gradient(circle, #39c6d6, #23f0ff);
+    box-shadow: 0 0 15px rgba(57, 198, 214, 0.5);
+}
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0.8;
+    }
+    25% {
+        transform: translateY(-30px) translateX(15px) scale(1.2);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-50px) translateX(-10px) scale(0.8);
+        opacity: 0.6;
+    }
+    75% {
+        transform: translateY(-20px) translateX(20px) scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+/* Contenedor de flores */
+.flowers-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+/* Texto central */
+.flowers-title {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;
+}
+
+.flowers-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: #fddd25;
+    text-shadow: 
+        0 0 20px rgba(253, 221, 37, 0.5),
+        0 0 40px rgba(253, 221, 37, 0.3),
+        0 0 60px rgba(253, 221, 37, 0.2);
+    animation: glowText 3s ease-in-out infinite;
+}
+
+.flowers-title p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+@keyframes glowText {
+    0%, 100% { text-shadow: 0 0 20px rgba(253, 221, 37, 0.5), 0 0 40px rgba(253, 221, 37, 0.3); }
+    50% { text-shadow: 0 0 30px rgba(253, 221, 37, 0.8), 0 0 60px rgba(253, 221, 37, 0.5), 0 0 80px rgba(253, 221, 37, 0.3); }
+}
+
+/* Grupo de flores */
+.flowers-group {
+    position: relative;
+    transform: scale(0.85);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+/* Flor individual mejorada */
+.flower {
+    position: relative;
+    transform-origin: bottom center;
+    animation: flowerSway 4s ease-in-out infinite;
+}
+
+.flower:nth-child(1) { animation-delay: 0s; }
+.flower:nth-child(2) { animation-delay: -1.3s; transform: scale(0.9); }
+.flower:nth-child(3) { animation-delay: -2.6s; transform: scale(0.95); }
+
+@keyframes flowerSway {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+}
+
+/* Cabeza de flor */
+.flower-head {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    animation: bloomFlower 2s ease-out forwards;
+}
+
+@keyframes bloomFlower {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Petalos */
+.petal {
+    position: absolute;
+    width: 45px;
+    height: 60px;
+    background: linear-gradient(135deg, #fddd25 0%, #f9fd25 50%, #daa520 100%);
+    border-radius: 50% 50% 50% 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center bottom;
+    box-shadow: 
+        inset 0 0 15px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(253, 221, 37, 0.3);
+    animation: petalGlow 2s ease-in-out infinite;
+}
+
+.petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg); animation-delay: 0s; }
+.petal:nth-child(2) { transform: translate(-50%, -100%) rotate(45deg); animation-delay: 0.1s; }
+.petal:nth-child(3) { transform: translate(-50%, -100%) rotate(90deg); animation-delay: 0.2s; }
+.petal:nth-child(4) { transform: translate(-50%, -100%) rotate(135deg); animation-delay: 0.3s; }
+.petal:nth-child(5) { transform: translate(-50%, -100%) rotate(180deg); animation-delay: 0.4s; }
+.petal:nth-child(6) { transform: translate(-50%, -100%) rotate(225deg); animation-delay: 0.5s; }
+.petal:nth-child(7) { transform: translate(-50%, -100%) rotate(270deg); animation-delay: 0.6s; }
+.petal:nth-child(8) { transform: translate(-50%, -100%) rotate(315deg); animation-delay: 0.7s; }
+
+@keyframes petalGlow {
+    0%, 100% { box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4), 0 0 20px rgba(253, 221, 37, 0.3); }
+    50% { box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.6), 0 0 35px rgba(253, 221, 37, 0.5); }
+}
+
+/* Centro de flor */
+.flower-center {
+    position: absolute;
+    width: 40px;
+    height: 25px;
+    background: linear-gradient(135deg, #fff 0%, #fffacd 50%, #fff 100%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Tallo */
+.stem {
+    width: 12px;
+    height: 180px;
+    background: linear-gradient(to right, #0d5c5f, #14757a, #39c6d6, #14757a, #0d5c5f);
+    margin: 0 auto;
+    border-radius: 6px;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* Hojas en el tallo */
+.leaf {
+    position: absolute;
+    width: 50px;
+    height: 70px;
+    background: linear-gradient(135deg, #5ed639 0%, #14757a 100%);
+    border-radius: 0 80% 0 80%;
+    transform-origin: bottom left;
+    animation: leafWave 3s ease-in-out infinite;
+}
+
+.leaf-left {
+    left: -45px;
+    top: 40px;
+    transform: rotate(-30deg);
+}
+
+.leaf-right {
+    right: -45px;
+    left: auto;
+    top: 80px;
+    transform: rotate(30deg) scaleX(-1);
+    animation-delay: -1.5s;
+}
+
+@keyframes leafWave {
+    0%, 100% { transform: rotate(-30deg); }
+    50% { transform: rotate(-25deg); }
+}
+
+.leaf-right {
+    animation-name: leafWaveRight;
+}
+
+@keyframes leafWaveRight {
+    0%, 100% { transform: rotate(30deg) scaleX(-1); }
+    50% { transform: rotate(35deg) scaleX(-1); }
+}
+
+/* Luces flotantes */
+.flower-lights {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    pointer-events: none;
+}
+
+.light-orb {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: floatLight 4s ease-in-out infinite;
+}
+
+.light-orb.gold {
+    background: #ffd700;
+    box-shadow: 0 0 15px #ffd700, 0 0 30px #ffd700;
+}
+
+.light-orb.cyan {
+    background: #23f0ff;
+    box-shadow: 0 0 15px #23f0ff, 0 0 30px #23f0ff;
+}
+
+@keyframes floatLight {
+    0% { opacity: 0; transform: translateY(0); }
+    25% { opacity: 1; }
+    50% { opacity: 1; transform: translateY(-80px) translateX(20px); }
+    75% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-120px) translateX(-10px); }
+}
+
+/* Corazones flotantes */
+.hearts-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 20px;
+    color: #ff6b6b;
+    animation: floatHeart 6s ease-in-out infinite;
+    opacity: 0;
+}
+
+@keyframes floatHeart {
+    0% { opacity: 0; transform: translateY(100vh) scale(0.5); }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-100px) scale(1) rotate(20deg); }
+}
+
+/* Piso reflectante */
+.floor-reflection {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, rgba(57, 198, 214, 0.1), transparent);
+    pointer-events: none;
+}
