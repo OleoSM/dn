@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* Fondo animado */
+        /* Fondo estático - sin animación para mejor rendimiento */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -38,69 +38,40 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: linear-gradient(-45deg, #0a0a1a, #1a0a2e, #0a1a2e, #1a1a3e);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(135deg, #0a0a1a, #1a0a2e, #0a1a2e);
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Orbes de luz */
+        /* Orbes de luz - estáticos en móvil */
         .orb {
             position: fixed;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.3;
+            opacity: 0.25;
             pointer-events: none;
             z-index: -1;
         }
 
         .orb-1 {
-            width: 500px;
-            height: 500px;
+            width: 400px;
+            height: 400px;
             background: var(--neon-pink);
-            top: -200px;
-            right: -200px;
-            animation: float1 20s ease-in-out infinite;
+            top: -150px;
+            right: -150px;
         }
 
         .orb-2 {
-            width: 400px;
-            height: 400px;
+            width: 300px;
+            height: 300px;
             background: var(--neon-cyan);
-            bottom: -150px;
-            left: -150px;
-            animation: float2 25s ease-in-out infinite;
+            bottom: -100px;
+            left: -100px;
         }
 
         .orb-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--neon-purple);
-            top: 50%;
-            left: 50%;
-            animation: float3 18s ease-in-out infinite;
+            display: none; /* Ocultar tercer orbe para mejor rendimiento */
         }
 
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-50px, 50px); }
-        }
-
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(50px, -30px); }
-        }
-
-        @keyframes float3 {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        /* Estrellas */
+        /* Sin estrellas animadas en móvil - se crean menos */
         .stars {
             position: fixed;
             top: 0;
@@ -115,12 +86,7 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
+            opacity: 0.5;
         }
 
         /* Contenedor principal */
@@ -134,112 +100,51 @@
             justify-content: center;
         }
 
-        /* Título neón */
+        /* Título neón - sin animación */
         .neon-title {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2.5rem, 8vw, 4rem);
             text-align: center;
             color: #fff;
             text-shadow: 
-                0 0 5px #fff,
                 0 0 10px #fff,
                 0 0 20px var(--neon-pink),
-                0 0 40px var(--neon-pink),
-                0 0 60px var(--neon-pink);
-            animation: neonPulse 2s ease-in-out infinite;
+                0 0 40px var(--neon-pink);
             margin-bottom: 40px;
         }
 
-        @keyframes neonPulse {
-            0%, 100% { 
-                text-shadow: 
-                    0 0 5px #fff,
-                    0 0 10px #fff,
-                    0 0 20px var(--neon-pink),
-                    0 0 40px var(--neon-pink);
-            }
-            50% { 
-                text-shadow: 
-                    0 0 10px #fff,
-                    0 0 20px #fff,
-                    0 0 40px var(--neon-pink),
-                    0 0 80px var(--neon-pink);
-            }
-        }
-
-        /* Tarjeta principal */
+        /* Tarjeta principal - sin animación de glow */
         .apology-card {
-            background: rgba(20, 20, 40, 0.8);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 0, 222, 0.3);
+            background: rgba(20, 20, 40, 0.9);
+            border: 2px solid rgba(255, 0, 222, 0.4);
             border-radius: 30px;
             padding: 40px;
             position: relative;
             overflow: hidden;
-            animation: cardGlow 4s ease-in-out infinite;
-        }
-
-        @keyframes cardGlow {
-            0%, 100% { 
-                border-color: rgba(255, 0, 222, 0.5);
-                box-shadow: 0 0 30px rgba(255, 0, 222, 0.2);
-            }
-            50% { 
-                border-color: rgba(0, 247, 255, 0.5);
-                box-shadow: 0 0 40px rgba(0, 247, 255, 0.2);
-            }
+            box-shadow: 0 0 30px rgba(255, 0, 222, 0.2);
         }
 
         /* Corazón interactivo */
         .heart-container {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
         }
 
         .main-heart {
             font-size: 80px;
             display: inline-block;
             cursor: pointer;
-            animation: heartFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 222, 0.8));
-            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 222, 0.6));
+            transition: transform 0.3s ease;
         }
 
         .main-heart:hover {
-            transform: scale(1.2);
-            filter: drop-shadow(0 0 40px rgba(255, 0, 222, 1));
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 25px rgba(255, 0, 222, 0.8));
         }
 
-        /* Partículas de corazones en hover */
-        .heart-container {
-            position: relative;
-        }
-
-        .hover-heart {
-            position: absolute;
-            pointer-events: none;
-            font-size: 1.2rem;
-            opacity: 0;
-            animation: hoverHeartFloat 2s ease-out forwards;
-        }
-
-        @keyframes hoverHeartFloat {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
-            }
-        }
-
-        @keyframes heartFloat {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        /* Sparkles */
+        /* Sparkles - estáticos */
         .sparkles {
             display: flex;
             justify-content: center;
@@ -249,18 +154,6 @@
 
         .sparkle {
             font-size: 24px;
-            animation: sparkleAnim 2s ease-in-out infinite;
-        }
-
-        .sparkle:nth-child(1) { animation-delay: 0s; }
-        .sparkle:nth-child(2) { animation-delay: 0.2s; }
-        .sparkle:nth-child(3) { animation-delay: 0.4s; }
-        .sparkle:nth-child(4) { animation-delay: 0.6s; }
-        .sparkle:nth-child(5) { animation-delay: 0.8s; }
-
-        @keyframes sparkleAnim {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1.3) rotate(180deg); opacity: 0.6; }
         }
 
         /* Textos */
@@ -281,57 +174,29 @@
         /* Mensaje destacado */
         .highlight-box {
             background: linear-gradient(135deg, rgba(255, 0, 222, 0.2), rgba(0, 247, 255, 0.2));
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             padding: 25px;
             margin: 30px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .highlight-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -100%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-50%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .highlight-text {
             font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 700;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-pink));
-            background-size: 200% auto;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientText 3s linear infinite;
             text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes gradientText {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
         }
 
         /* Línea neón */
         .neon-line {
             height: 3px;
-            background: linear-gradient(90deg, transparent, var(--neon-pink), var(--neon-cyan), var(--neon-pink), transparent);
+            background: linear-gradient(90deg, transparent, var(--neon-pink), var(--neon-cyan), transparent);
             margin: 30px auto;
             max-width: 200px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 0, 222, 0.5);
         }
 
         /* Botón principal */
@@ -588,13 +453,10 @@
 
         .victory-emoji {
             font-size: 4rem;
-            animation: bounce 1s ease infinite;
+            /* Animación bounce removida para mejor rendimiento */
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        /* Animación bounce removida */
 
         .victory-text {
             font-size: 1.5rem;
@@ -674,7 +536,7 @@
             height: 75px;
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="24">🎯</text></svg>') 16 16, pointer;
             transition: transform 0.2s ease;
-            animation: balloonFloat 3s ease-in-out infinite;
+            /* Animación simplificada para móvil */
             z-index: 10;
         }
 
@@ -735,10 +597,7 @@
         .balloon-orange .balloon-body { background: linear-gradient(135deg, #fb923c, #f97316); }
         .balloon-orange .balloon-body::after { border-top-color: #f97316; }
 
-        @keyframes balloonFloat {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-        }
+        /* Animación de globo removida para mejor rendimiento */
 
         /* Explosión del globo */
         .balloon.popping {
@@ -812,7 +671,7 @@
         .reveal-emoji {
             font-size: 4rem;
             margin-bottom: 15px;
-            animation: bounce 1s ease infinite;
+            /* Animación bounce removida para mejor rendimiento */
         }
 
         .reveal-text {
@@ -954,11 +813,11 @@
 
         .game-option-emoji {
             font-size: 3rem;
-            animation: bounce 2s ease infinite;
+            /* Animación bounce removida para mejor rendimiento */
         }
 
         .game-option:nth-child(2) .game-option-emoji {
-            animation-delay: 0.5s;
+            /* animation-delay removido */
         }
 
         .game-option-title {
@@ -1007,13 +866,10 @@
 
         .unlock-icon {
             font-size: 3rem;
-            animation: pulse 1s ease infinite;
+            /* Animación pulse removida para mejor rendimiento */
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
+        /* Animación pulse removida */
 
         /* Responsive */
         @media (max-width: 600px) {
@@ -1248,7 +1104,8 @@
         // ============================================
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 80; i++) {
+            // Reducido de 80 a 30 para mejor rendimiento móvil
+            for (let i = 0; i < 30; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.cssText = `
@@ -1409,8 +1266,8 @@
             const colors = ['#ff00de', '#00f7ff', '#ffdd00', '#ff6b6b', '#6366f1', '#14b8a6', '#ff69b4', '#ffd700'];
             const emojis = ['🎉', '🎊', '✨', '💖', '🌟', '💕', '🎀', '💜'];
             
-            // Crear 150 confettis
-            for (let i = 0; i < 150; i++) {
+            // Crear 50 confettis (reducido para mejor rendimiento móvil)
+            for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
@@ -1765,11 +1622,12 @@
                 }
             }
             
-            for (let i = 0; i < 12; i++) {
+            // Reducido de 12 a 6 partículas para mejor rendimiento móvil
+            for (let i = 0; i < 6; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'pop-particle';
                 
-                const angle = (Math.PI * 2 * i) / 12;
+                const angle = (Math.PI * 2 * i) / 6;
                 const distance = 50 + Math.random() * 50;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
