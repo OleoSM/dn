@@ -640,6 +640,339 @@ footer .heart {
 }
 
 /* ============================================
+   SECCION DE DISCULPAS - NEON STYLE
+   ============================================ */
+
+.apology-section {
+    padding: 100px 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.apology-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+/* Fondo especial neón */
+.apology-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(255, 0, 222, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 247, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Título neón animado */
+.neon-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    text-align: center;
+    color: #fff;
+    text-shadow: 
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px #ff00de,
+        0 0 40px #ff00de,
+        0 0 60px #ff00de;
+    animation: neonFlicker 3s ease-in-out infinite;
+    margin-bottom: 3rem;
+}
+
+@keyframes neonFlicker {
+    0%, 100% { 
+        text-shadow: 
+            0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 20px #ff00de,
+            0 0 40px #ff00de,
+            0 0 60px #ff00de;
+    }
+    50% { 
+        text-shadow: 
+            0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 30px #ff00de,
+            0 0 50px #ff00de,
+            0 0 80px #ff00de;
+    }
+}
+
+/* Tarjeta principal de disculpa */
+.apology-card {
+    background: rgba(15, 15, 35, 0.8);
+    backdrop-filter: blur(20px);
+    border: 2px solid transparent;
+    border-radius: 30px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    animation: borderGlow 4s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% { 
+        border-color: rgba(255, 0, 222, 0.5);
+        box-shadow: 
+            0 0 20px rgba(255, 0, 222, 0.3),
+            inset 0 0 30px rgba(255, 0, 222, 0.05);
+    }
+    50% { 
+        border-color: rgba(0, 247, 255, 0.5);
+        box-shadow: 
+            0 0 30px rgba(0, 247, 255, 0.3),
+            inset 0 0 30px rgba(0, 247, 255, 0.05);
+    }
+}
+
+/* Corazón animado interactivo */
+.floating-heart-container {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.main-heart {
+    font-size: 5rem;
+    display: inline-block;
+    animation: heartFloat 3s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 222, 0.8));
+}
+
+.main-heart:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 40px rgba(255, 0, 222, 1));
+}
+
+@keyframes heartFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+/* Partículas de corazones flotantes */
+.heart-particle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatUp 4s ease-out forwards;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateY(-200px) scale(0.3);
+    }
+}
+
+/* Mensaje principal destacado */
+.apology-highlight {
+    background: linear-gradient(135deg, rgba(255, 0, 222, 0.2), rgba(0, 247, 255, 0.2));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.apology-highlight::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+    );
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.highlight-text {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff00de, #00f7ff, #ff00de);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientMove 3s linear infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Párrafos de disculpa */
+.apology-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.apology-text.emphasis {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+/* Botón interactivo */
+.apology-btn {
+    display: block;
+    width: fit-content;
+    margin: 3rem auto 0;
+    padding: 1.2rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #ff00de, #6366f1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 40px rgba(255, 0, 222, 0.4);
+}
+
+.apology-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 60px rgba(255, 0, 222, 0.6);
+}
+
+.apology-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.apology-btn:hover::before {
+    left: 100%;
+}
+
+/* Confetti container */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confettiFall 3s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        opacity: 1;
+        transform: translateY(-100vh) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* Decoración de sparkles */
+.sparkle-decoration {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.sparkle {
+    font-size: 1.5rem;
+    animation: sparkleRotate 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+.sparkle:nth-child(1) { color: #ff00de; animation-delay: 0s; }
+.sparkle:nth-child(2) { color: #00f7ff; animation-delay: 0.3s; }
+.sparkle:nth-child(3) { color: #ffdd00; animation-delay: 0.6s; }
+.sparkle:nth-child(4) { color: #00f7ff; animation-delay: 0.9s; }
+.sparkle:nth-child(5) { color: #ff00de; animation-delay: 1.2s; }
+
+@keyframes sparkleRotate {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    50% { transform: scale(1.3) rotate(180deg); opacity: 0.7; }
+}
+
+/* Línea decorativa neón */
+.neon-line {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff00de, #00f7ff, #ff00de, transparent);
+    margin: 3rem auto;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 0, 222, 0.5);
+}
+
+/* Card de experiencia para disculpa */
+.exp-card-apology .exp-card-icon {
+    background: linear-gradient(135deg, #1a0a1f, #0a1a2e);
+    box-shadow: 
+        0 0 20px rgba(255, 0, 222, 0.4),
+        0 0 40px rgba(0, 247, 255, 0.2);
+}
+
+.exp-card-apology .exp-card-tag {
+    background: linear-gradient(90deg, rgba(255, 0, 222, 0.3), rgba(0, 247, 255, 0.3));
+    color: #fff;
+}
+
+.exp-card-apology::after {
+    background: radial-gradient(circle at 30% 50%, rgba(255, 0, 222, 0.15) 0%, transparent 60%);
+}
+
+.exp-card-apology:hover {
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 0, 222, 0.2);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 

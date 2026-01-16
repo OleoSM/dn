@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Mensaje Especial Para Ti</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff00de;
+            --neon-cyan: #00f7ff;
+            --neon-purple: #6366f1;
+            --dark-bg: #0a0a1a;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Fondo animado */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #0a0a1a, #1a0a2e, #0a1a2e, #1a1a3e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Orbes de luz */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--neon-pink);
+            top: -200px;
+            right: -200px;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--neon-cyan);
+            bottom: -150px;
+            left: -150px;
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--neon-purple);
+            top: 50%;
+            left: 50%;
+            animation: float3 18s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, 50px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -30px); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Estrellas */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Título neón */
+        .neon-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            text-align: center;
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink),
+                0 0 60px var(--neon-pink);
+            animation: neonPulse 2s ease-in-out infinite;
+            margin-bottom: 40px;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px var(--neon-pink),
+                    0 0 40px var(--neon-pink);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 40px var(--neon-pink),
+                    0 0 80px var(--neon-pink);
+            }
+        }
+
+        /* Tarjeta principal */
+        .apology-card {
+            background: rgba(20, 20, 40, 0.8);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 0, 222, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            animation: cardGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { 
+                border-color: rgba(255, 0, 222, 0.5);
+                box-shadow: 0 0 30px rgba(255, 0, 222, 0.2);
+            }
+            50% { 
+                border-color: rgba(0, 247, 255, 0.5);
+                box-shadow: 0 0 40px rgba(0, 247, 255, 0.2);
+            }
+        }
+
+        /* Corazón interactivo */
+        .heart-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-heart {
+            font-size: 80px;
+            display: inline-block;
+            cursor: pointer;
+            animation: heartFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 222, 0.8));
+            transition: all 0.3s ease;
+        }
+
+        .main-heart:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 40px rgba(255, 0, 222, 1));
+        }
+
+        /* Partículas de corazones en hover */
+        .heart-container {
+            position: relative;
+        }
+
+        .hover-heart {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: hoverHeartFloat 2s ease-out forwards;
+        }
+
+        @keyframes hoverHeartFloat {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
+            }
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        /* Sparkles */
+        .sparkles {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .sparkle {
+            font-size: 24px;
+            animation: sparkleAnim 2s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) { animation-delay: 0s; }
+        .sparkle:nth-child(2) { animation-delay: 0.2s; }
+        .sparkle:nth-child(3) { animation-delay: 0.4s; }
+        .sparkle:nth-child(4) { animation-delay: 0.6s; }
+        .sparkle:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes sparkleAnim {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.3) rotate(180deg); opacity: 0.6; }
+        }
+
+        /* Textos */
+        .apology-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .emphasis {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* Mensaje destacado */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 0, 222, 0.2), rgba(0, 247, 255, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-50%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .highlight-text {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-pink));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s linear infinite;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Línea neón */
+        .neon-line {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-pink), var(--neon-cyan), var(--neon-pink), transparent);
+            margin: 30px auto;
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 222, 0.5);
+        }
+
+        /* Botón principal */
+        .forgive-btn {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(255, 0, 222, 0.4);
+        }
+
+        .forgive-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 0, 222, 0.6);
+        }
+
+        .forgive-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .forgive-btn:hover::before {
+            left: 100%;
+        }
+
+        .forgive-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Confetti container */
+        .confetti-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            bottom: -20px;
+            animation: confettiRise 3s ease-out forwards;
+        }
+
+        @keyframes confettiRise {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120vh) rotate(720deg) scale(0.5);
+            }
+        }
+
+        /* ========================================
+           MINI JUEGO DE FRUTITAS
+           ======================================== */
+        .game-container {
+            display: none;
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .game-container.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            margin-bottom: 10px;
+        }
+
+        .game-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        .stat-value {
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+        }
+
+        /* Tablero del juego */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .fruit-cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .fruit-cell:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .fruit-cell.selected {
+            background: rgba(255, 0, 222, 0.3);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 222, 0.5);
+            transform: scale(1.1);
+        }
+
+        .fruit-cell.matched {
+            animation: matchPop 0.5s ease;
+            background: rgba(0, 247, 255, 0.3);
+            border-color: var(--neon-cyan);
+        }
+
+        @keyframes matchPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .fruit-cell.wrong {
+            animation: shake 0.5s ease;
+            background: rgba(255, 50, 50, 0.3);
+            border-color: #ff5050;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Botones del juego */
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .game-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn-primary {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(0, 247, 255, 0.3);
+        }
+
+        .game-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 247, 255, 0.4);
+        }
+
+        .game-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .game-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Mensaje de victoria */
+        .victory-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 0, 222, 0.2), rgba(0, 247, 255, 0.2));
+            border-radius: 20px;
+            margin-top: 20px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .victory-message.active {
+            display: block;
+        }
+
+        .victory-emoji {
+            font-size: 4rem;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .victory-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin: 15px 0;
+        }
+
+        /* ========================================
+           JUEGO DE GLOBOS
+           ======================================== */
+        .balloons-container {
+            display: none;
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .balloons-container.active {
+            display: block;
+        }
+
+        .balloons-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .balloons-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-pink);
+            margin-bottom: 10px;
+        }
+
+        .balloons-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .balloons-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .balloon-stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .balloon-stat-value {
+            color: var(--neon-pink);
+            font-size: 1.2rem;
+        }
+
+        /* Área de juego de globos */
+        .balloons-game-area {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 450px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #1a0a2e 0%, #0a1a2e 50%, #0a2a1e 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="24">🎯</text></svg>') 16 16, crosshair;
+        }
+
+        /* Globos */
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 75px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="24">🎯</text></svg>') 16 16, pointer;
+            transition: transform 0.2s ease;
+            animation: balloonFloat 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .balloon:hover {
+            transform: scale(1.1);
+        }
+
+        .balloon-body {
+            width: 60px;
+            height: 70px;
+            border-radius: 50% 50% 50% 50%;
+            position: relative;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2), inset 5px 5px 10px rgba(255,255,255,0.3);
+        }
+
+        .balloon-body::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid inherit;
+        }
+
+        .balloon-string {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: rgba(255,255,255,0.5);
+            transform: translateX(-50%);
+        }
+
+        /* Colores de globos */
+        .balloon-red .balloon-body { background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+        .balloon-red .balloon-body::after { border-top-color: #ee5a5a; }
+        
+        .balloon-blue .balloon-body { background: linear-gradient(135deg, #4ecdc4, #44a3aa); }
+        .balloon-blue .balloon-body::after { border-top-color: #44a3aa; }
+        
+        .balloon-yellow .balloon-body { background: linear-gradient(135deg, #ffe66d, #ffd93d); }
+        .balloon-yellow .balloon-body::after { border-top-color: #ffd93d; }
+        
+        .balloon-pink .balloon-body { background: linear-gradient(135deg, #ff85a2, #ff5580); }
+        .balloon-pink .balloon-body::after { border-top-color: #ff5580; }
+        
+        .balloon-purple .balloon-body { background: linear-gradient(135deg, #a855f7, #9333ea); }
+        .balloon-purple .balloon-body::after { border-top-color: #9333ea; }
+        
+        .balloon-green .balloon-body { background: linear-gradient(135deg, #4ade80, #22c55e); }
+        .balloon-green .balloon-body::after { border-top-color: #22c55e; }
+        
+        .balloon-orange .balloon-body { background: linear-gradient(135deg, #fb923c, #f97316); }
+        .balloon-orange .balloon-body::after { border-top-color: #f97316; }
+
+        @keyframes balloonFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        /* Explosión del globo */
+        .balloon.popping {
+            animation: popBalloon 0.3s ease-out forwards;
+        }
+
+        @keyframes popBalloon {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Partículas de explosión */
+        .pop-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleExplode 0.6s ease-out forwards;
+        }
+
+        @keyframes particleExplode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        /* Dardo volando */
+        .flying-dart {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 100;
+            animation: dartFly 0.2s ease-out forwards;
+        }
+
+        @keyframes dartFly {
+            0% { transform: scale(1) rotate(-45deg); }
+            100% { transform: scale(0.5) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Mensaje revelado */
+        .reveal-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 10, 30, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 40px 50px;
+            border-radius: 25px;
+            text-align: center;
+            z-index: 1000;
+            animation: revealPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 50px rgba(255, 0, 222, 0.3);
+            max-width: 90%;
+        }
+
+        @keyframes revealPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .reveal-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 1s ease infinite;
+        }
+
+        .reveal-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .reveal-subtext {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .reveal-close {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .reveal-close:hover {
+            transform: scale(1.05);
+        }
+
+        /* Overlay */
+        .message-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message-overlay.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Victoria de globos */
+        .balloons-complete {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 0, 222, 0.2), rgba(0, 247, 255, 0.2));
+            border-radius: 20px;
+            margin-top: 20px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .balloons-complete.active {
+            display: block;
+        }
+
+        /* Unlock balloons message */
+        .unlock-balloons {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 0, 222, 0.1);
+            border: 1px solid rgba(255, 0, 222, 0.3);
+            border-radius: 15px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .unlock-balloons.active {
+            display: block;
+        }
+
+        .game-btn-reset {
+            margin-top: 20px;
+        }
+
+        /* ========================================
+           SELECTOR DE JUEGOS
+           ======================================== */
+        .game-selector {
+            display: none;
+            margin-top: 50px;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .game-selector.active {
+            display: block;
+        }
+
+        .game-selector-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .game-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .game-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .game-option:hover {
+            border-color: var(--neon-pink);
+            background: rgba(255, 0, 222, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 222, 0.3);
+        }
+
+        .game-option-emoji {
+            font-size: 3rem;
+            animation: bounce 2s ease infinite;
+        }
+
+        .game-option:nth-child(2) .game-option-emoji {
+            animation-delay: 0.5s;
+        }
+
+        .game-option-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .game-option-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+        }
+
+        /* Unlock other game message */
+        .unlock-other-game {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 15px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .unlock-other-game.active {
+            display: block;
+        }
+
+        /* Unlock message */
+        .unlock-message {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 15px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .unlock-message.active {
+            display: block;
+        }
+
+        .unlock-icon {
+            font-size: 3rem;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 20px 15px;
+            }
+
+            .apology-card {
+                padding: 25px;
+            }
+
+            .game-board {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                padding: 15px;
+            }
+
+            .fruit-cell {
+                font-size: 1.8rem;
+            }
+
+            .game-stats {
+                gap: 15px;
+            }
+
+            .stat {
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondos -->
+    <div class="bg-gradient"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <h1 class="neon-title">Lo Siento Mucho, Dani</h1>
+
+        <div class="apology-card">
+            <!-- Corazón interactivo -->
+            <div class="heart-container">
+                <span class="main-heart" id="mainHeart" title="Haz clic en mi">💔</span>
+            </div>
+
+            <!-- Sparkles -->
+            <div class="sparkles">
+                <span class="sparkle">✨</span>
+                <span class="sparkle">💫</span>
+                <span class="sparkle">⭐</span>
+                <span class="sparkle">💫</span>
+                <span class="sparkle">✨</span>
+            </div>
+
+            <p class="apology-text emphasis">
+                Hubo un malentendido y necesito que sepas algo muy importante:
+            </p>
+
+            <!-- Mensaje destacado -->
+            <div class="highlight-box">
+                <p class="highlight-text">Jamás te haría algo así a ti</p>
+            </div>
+
+            <p class="apology-text">
+                Eres una persona increíblemente especial para mí. Tu confianza y tu cariño 
+                significan demasiado como para hacer algo que te lastime.
+            </p>
+
+            <div class="neon-line"></div>
+
+            <p class="apology-text">
+                Si mis acciones o palabras causaron confusión, te pido perdón de todo corazón. 
+                Nunca fue mi intención herirte de ninguna manera.
+            </p>
+
+            <p class="apology-text emphasis" style="margin-top: 25px;">
+                Te quiero y valoro muchísimo 💜
+            </p>
+
+            <!-- Botón principal -->
+            <button class="forgive-btn" id="forgiveBtn">
+                ¿Me perdonas? 💕
+            </button>
+
+            <!-- Mensaje de desbloqueo -->
+            <div class="unlock-message" id="unlockMessage">
+                <div class="unlock-icon">🎮</div>
+                <p style="color: var(--neon-cyan); font-weight: 600; margin-top: 10px;">
+                    ¡Desbloqueaste mini juegos especiales!
+                </p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                    Elige con cuál quieres empezar
+                </p>
+            </div>
+        </div>
+
+        <!-- ========================================
+             SELECTOR DE JUEGOS
+             ======================================== -->
+        <div class="game-selector" id="gameSelector">
+            <h2 class="game-selector-title">¿Con cuál quieres jugar primero?</h2>
+            <div class="game-options">
+                <button class="game-option" id="selectFruits">
+                    <span class="game-option-emoji">🍓</span>
+                    <span class="game-option-title">Frutas Match</span>
+                    <span class="game-option-desc">Encuentra los pares de frutitas</span>
+                </button>
+                <button class="game-option" id="selectBalloons">
+                    <span class="game-option-emoji">🎈</span>
+                    <span class="game-option-title">Revienta Globos</span>
+                    <span class="game-option-desc">Lanza dardos y descubre sorpresas</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================
+             MINI JUEGO DE FRUTITAS
+             ======================================== -->
+        <div class="game-container" id="gameContainer">
+            <div class="game-header">
+                <h2 class="game-title">🍓 Frutas Match 🍓</h2>
+                <p class="game-subtitle">Encuentra todos los pares de frutitas</p>
+            </div>
+
+            <div class="game-stats">
+                <div class="stat">
+                    <div class="stat-label">Movimientos</div>
+                    <div class="stat-value" id="movesCount">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Pares</div>
+                    <div class="stat-value"><span id="pairsFound">0</span> / 8</div>
+                </div>
+            </div>
+
+            <div class="game-board" id="gameBoard">
+                <!-- Las celdas se generan con JavaScript -->
+            </div>
+
+            <div class="game-buttons">
+                <button class="game-btn game-btn-primary" id="restartBtn">🔄 Reiniciar</button>
+            </div>
+
+            <!-- Mensaje de victoria -->
+            <div class="victory-message" id="victoryMessage">
+                <div class="victory-emoji">🎉</div>
+                <p class="victory-text">¡Felicidades, ganaste!</p>
+                <p style="color: rgba(255,255,255,0.8);">
+                    Completaste el juego en <span id="finalMoves">0</span> movimientos
+                </p>
+                <p style="color: var(--neon-pink); margin-top: 15px; font-weight: 600;">
+                    Te quiero mucho, Dani 💖
+                </p>
+            </div>
+
+            <!-- Desbloqueo del otro juego -->
+            <div class="unlock-other-game" id="unlockOtherGame">
+                <div style="font-size: 2rem;" id="unlockOtherEmoji">🎈</div>
+                <p style="color: var(--neon-cyan); font-weight: 600; margin-top: 10px;" id="unlockOtherText">
+                    ¡Desbloqueaste otro juego!
+                </p>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                    Desliza para continuar la diversión
+                </p>
+            </div>
+        </div>
+
+        <!-- ========================================
+             JUEGO DE GLOBOS CON DARDOS
+             ======================================== -->
+        <div class="balloons-container" id="balloonsContainer">
+            <div class="balloons-header">
+                <h2 class="balloons-title">🎯 ¡Revienta los Globos! 🎈</h2>
+                <p class="balloons-subtitle">Lanza dardos y descubre las sorpresas</p>
+            </div>
+
+            <div class="balloons-stats">
+                <div class="balloon-stat">
+                    <span style="color: rgba(255,255,255,0.6); font-size: 0.8rem;">Reventados</span>
+                    <div class="balloon-stat-value"><span id="poppedCount">0</span> / 12</div>
+                </div>
+            </div>
+
+            <!-- Área de juego -->
+            <div class="balloons-game-area" id="balloonsGameArea">
+                <!-- Los globos se generan con JavaScript -->
+            </div>
+
+            <div style="text-align: center;">
+                <button class="game-btn game-btn-primary game-btn-reset" id="resetBalloonsBtn">
+                    🔄 Nuevos Globos
+                </button>
+            </div>
+
+            <!-- Mensaje al completar -->
+            <div class="balloons-complete" id="balloonsComplete">
+                <div class="victory-emoji">🎉</div>
+                <p class="victory-text">¡Reventaste todos los globos!</p>
+                <p style="color: rgba(255,255,255,0.8);">
+                    Espero que te hayan gustado las sorpresas
+                </p>
+                <p style="color: var(--neon-pink); margin-top: 15px; font-weight: 600;">
+                    Te quiero mucho, Dani 💖
+                </p>
+            </div>
+        </div>
+
+        <!-- Overlay para mensajes -->
+        <div class="message-overlay" id="messageOverlay"></div>
+    </div>
+
+    <!-- Contenedor de confetti -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Audio de fanfarria -->
+    <audio id="fanfareAudio" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Audio de globo explotando -->
+    <audio id="popAudio" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2017/2017-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ============================================
+        // CREAR ESTRELLAS
+        // ============================================
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 80; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.cssText = `
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 3}s;
+                `;
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        // ============================================
+        // CORAZÓN INTERACTIVO
+        // ============================================
+        const mainHeart = document.getElementById('mainHeart');
+        const heartContainer = document.querySelector('.heart-container');
+        let heartClicks = 0;
+        let hoverInterval = null;
+
+        // Efecto hover - crear corazones continuamente mientras está el mouse encima
+        mainHeart.addEventListener('mouseenter', function() {
+            // Crear corazones inmediatamente
+            createHoverHearts();
+            // Continuar creando mientras el mouse está encima
+            hoverInterval = setInterval(createHoverHearts, 200);
+        });
+
+        mainHeart.addEventListener('mouseleave', function() {
+            if (hoverInterval) {
+                clearInterval(hoverInterval);
+                hoverInterval = null;
+            }
+        });
+
+        function createHoverHearts() {
+            const hearts = ['💕', '💖', '💗', '💝', '💓', '💘', '💞', '💟', '❤️', '🩷', '🩵', '✨', '💫'];
+            const numHearts = 3 + Math.floor(Math.random() * 3); // 3-5 corazones cada vez
+            
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'hover-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                
+                // Posición aleatoria alrededor del corazón
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 80 + Math.random() * 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 50; // Más hacia arriba
+                const rotation = (Math.random() - 0.5) * 360;
+                
+                heart.style.cssText = `
+                    left: 50%;
+                    top: 50%;
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    --rot: ${rotation}deg;
+                    font-size: ${0.8 + Math.random() * 1}rem;
+                    animation-duration: ${1.5 + Math.random() * 1}s;
+                `;
+                
+                heartContainer.appendChild(heart);
+                
+                // Remover después de la animación
+                setTimeout(() => heart.remove(), 2500);
+            }
+        }
+
+        // Click en corazón
+        mainHeart.addEventListener('click', function() {
+            heartClicks++;
+            
+            // Crear partículas de corazones
+            for (let i = 0; i < 5; i++) {
+                createHeartParticle(this);
+            }
+
+            // Cambiar corazón después de 3 clics
+            if (heartClicks >= 3) {
+                this.textContent = '❤️';
+                this.style.filter = 'drop-shadow(0 0 30px rgba(255, 100, 150, 1))';
+            }
+        });
+
+        function createHeartParticle(parent) {
+            const particle = document.createElement('span');
+            particle.textContent = ['💕', '💖', '💗', '💝', '✨'][Math.floor(Math.random() * 5)];
+            particle.style.cssText = `
+                position: absolute;
+                font-size: 1.5rem;
+                pointer-events: none;
+                animation: floatAway 2s ease-out forwards;
+                left: ${50 + (Math.random() - 0.5) * 50}%;
+                top: 0;
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatAway {
+                    0% { opacity: 1; transform: translateY(0) scale(1); }
+                    100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            parent.parentElement.appendChild(particle);
+            setTimeout(() => particle.remove(), 2000);
+        }
+
+        // ============================================
+        // BOTÓN DE PERDÓN - CONFETTI Y FANFARRIA
+        // ============================================
+        const forgiveBtn = document.getElementById('forgiveBtn');
+        const confettiContainer = document.getElementById('confettiContainer');
+        const fanfareAudio = document.getElementById('fanfareAudio');
+        const unlockMessage = document.getElementById('unlockMessage');
+        const gameContainer = document.getElementById('gameContainer');
+        const gameSelector = document.getElementById('gameSelector');
+        const unlockOtherGame = document.getElementById('unlockOtherGame');
+        let hasClicked = false;
+        let firstGameChoice = null; // 'fruits' o 'balloons'
+
+        forgiveBtn.addEventListener('click', function() {
+            if (hasClicked) return;
+            hasClicked = true;
+
+            // Cambiar botón
+            this.textContent = '¡Gracias! Te quiero mucho 💜';
+            this.style.background = 'linear-gradient(135deg, #00f7ff, #6366f1)';
+            this.disabled = true;
+
+            // Cambiar corazón
+            mainHeart.textContent = '💖';
+            mainHeart.style.filter = 'drop-shadow(0 0 40px rgba(255, 100, 200, 1))';
+
+            // Reproducir fanfarria
+            fanfareAudio.volume = 0.5;
+            fanfareAudio.play().catch(e => console.log('Audio blocked:', e));
+
+            // Lanzar confetti DESDE ABAJO
+            launchConfettiFromBottom();
+
+            // Mostrar mensaje de desbloqueo
+            setTimeout(() => {
+                unlockMessage.classList.add('active');
+            }, 1500);
+
+            // Mostrar selector de juegos
+            setTimeout(() => {
+                gameSelector.classList.add('active');
+                gameSelector.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 2500);
+        });
+
+        function launchConfettiFromBottom() {
+            const colors = ['#ff00de', '#00f7ff', '#ffdd00', '#ff6b6b', '#6366f1', '#14b8a6', '#ff69b4', '#ffd700'];
+            const emojis = ['🎉', '🎊', '✨', '💖', '🌟', '💕', '🎀', '💜'];
+            
+            // Crear 150 confettis
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    const isEmoji = Math.random() > 0.6;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const size = 8 + Math.random() * 15;
+                    
+                    if (isEmoji) {
+                        confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                        confetti.style.cssText = `
+                            left: ${Math.random() * 100}vw;
+                            font-size: ${15 + Math.random() * 20}px;
+                            animation-duration: ${2.5 + Math.random() * 2}s;
+                        `;
+                    } else {
+                        confetti.style.cssText = `
+                            left: ${Math.random() * 100}vw;
+                            width: ${size}px;
+                            height: ${size}px;
+                            background: ${color};
+                            border-radius: ${Math.random() > 0.5 ? '50%' : '3px'};
+                            animation-duration: ${2.5 + Math.random() * 2}s;
+                        `;
+                    }
+                    
+                    confettiContainer.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 15);
+            }
+        }
+
+        // ============================================
+        // SELECTOR DE JUEGOS
+        // ============================================
+        document.getElementById('selectFruits').addEventListener('click', function() {
+            firstGameChoice = 'fruits';
+            gameSelector.classList.remove('active');
+            gameContainer.classList.add('active');
+            initGame();
+            gameContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.getElementById('selectBalloons').addEventListener('click', function() {
+            firstGameChoice = 'balloons';
+            gameSelector.classList.remove('active');
+            balloonsContainer.classList.add('active');
+            initBalloons();
+            balloonsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Función para desbloquear el otro juego
+        function unlockOtherGameSection() {
+            const otherGame = firstGameChoice === 'fruits' ? 'balloons' : 'fruits';
+            
+            // Actualizar mensaje de desbloqueo
+            const unlockEmoji = document.getElementById('unlockOtherEmoji');
+            const unlockText = document.getElementById('unlockOtherText');
+            
+            if (otherGame === 'balloons') {
+                unlockEmoji.textContent = '🎈🎯';
+                unlockText.textContent = '¡Desbloqueaste Revienta Globos!';
+            } else {
+                unlockEmoji.textContent = '🍓🎮';
+                unlockText.textContent = '¡Desbloqueaste Frutas Match!';
+            }
+            
+            setTimeout(() => {
+                unlockOtherGame.classList.add('active');
+            }, 2000);
+
+            setTimeout(() => {
+                if (otherGame === 'balloons') {
+                    balloonsContainer.classList.add('active');
+                    initBalloons();
+                    balloonsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    gameContainer.classList.add('active');
+                    initGame();
+                    gameContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 3500);
+        }
+
+        // ============================================
+        // MINI JUEGO DE FRUTITAS
+        // ============================================
+        const fruits = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🍒', '🥝'];
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let canFlip = true;
+
+        function initGame() {
+            // Crear pares de frutas
+            cards = [...fruits, ...fruits];
+            // Mezclar
+            cards = cards.sort(() => Math.random() - 0.5);
+            
+            // Reset stats
+            matchedPairs = 0;
+            moves = 0;
+            flippedCards = [];
+            canFlip = true;
+            
+            document.getElementById('movesCount').textContent = moves;
+            document.getElementById('pairsFound').textContent = matchedPairs;
+            document.getElementById('victoryMessage').classList.remove('active');
+            
+            renderBoard();
+        }
+
+        function renderBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+            
+            cards.forEach((fruit, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'fruit-cell';
+                cell.dataset.index = index;
+                cell.dataset.fruit = fruit;
+                cell.textContent = '❓';
+                cell.addEventListener('click', () => flipCard(cell, index));
+                board.appendChild(cell);
+            });
+        }
+
+        function flipCard(cell, index) {
+            if (!canFlip) return;
+            if (cell.classList.contains('selected') || cell.classList.contains('matched')) return;
+            if (flippedCards.length >= 2) return;
+
+            // Mostrar fruta
+            cell.textContent = cards[index];
+            cell.classList.add('selected');
+            flippedCards.push({ cell, index, fruit: cards[index] });
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('movesCount').textContent = moves;
+                canFlip = false;
+
+                const [first, second] = flippedCards;
+
+                if (first.fruit === second.fruit) {
+                    // Match!
+                    setTimeout(() => {
+                        first.cell.classList.remove('selected');
+                        second.cell.classList.remove('selected');
+                        first.cell.classList.add('matched');
+                        second.cell.classList.add('matched');
+                        
+                        matchedPairs++;
+                        document.getElementById('pairsFound').textContent = matchedPairs;
+                        
+                        flippedCards = [];
+                        canFlip = true;
+
+                        // Victoria
+                        if (matchedPairs === 8) {
+                            setTimeout(() => {
+                                document.getElementById('finalMoves').textContent = moves;
+                                document.getElementById('victoryMessage').classList.add('active');
+                                launchConfettiFromBottom();
+                                fanfareAudio.currentTime = 0;
+                                fanfareAudio.play().catch(e => {});
+                                
+                                // Desbloquear el otro juego si este fue el primero
+                                if (firstGameChoice === 'fruits') {
+                                    unlockOtherGameSection();
+                                }
+                            }, 500);
+                        }
+                    }, 500);
+                } else {
+                    // No match
+                    setTimeout(() => {
+                        first.cell.classList.add('wrong');
+                        second.cell.classList.add('wrong');
+                        
+                        setTimeout(() => {
+                            first.cell.textContent = '❓';
+                            second.cell.textContent = '❓';
+                            first.cell.classList.remove('selected', 'wrong');
+                            second.cell.classList.remove('selected', 'wrong');
+                            flippedCards = [];
+                            canFlip = true;
+                        }, 600);
+                    }, 800);
+                }
+            }
+        }
+
+        // Botón reiniciar
+        document.getElementById('restartBtn').addEventListener('click', initGame);
+
+        // ============================================
+        // JUEGO DE GLOBOS CON DARDOS
+        // ============================================
+        const balloonsContainer = document.getElementById('balloonsContainer');
+        const balloonsGameArea = document.getElementById('balloonsGameArea');
+        const unlockBalloons = document.getElementById('unlockBalloons');
+        const messageOverlay = document.getElementById('messageOverlay');
+        const balloonsComplete = document.getElementById('balloonsComplete');
+        const poppedCountEl = document.getElementById('poppedCount');
+
+        const balloonColors = ['red', 'blue', 'yellow', 'pink', 'purple', 'green', 'orange'];
+        
+        // Contenidos de los globos - mezcla de mensajes bonitos y chistes
+        const balloonContents = [
+            { emoji: '💖', text: 'Te quiero mucho', subtext: 'Nunca lo olvides' },
+            { emoji: '🌟', text: 'Eres increíble', subtext: 'En serio, no es broma... bueno, el resto sí' },
+            { emoji: '😂', text: '¿Por qué el libro de matemáticas fue al psicólogo?', subtext: 'Porque tenía demasiados problemas' },
+            { emoji: '🤣', text: '¿Qué le dice un jaguar a otro?', subtext: 'Jaguar you?' },
+            { emoji: '😆', text: '¿Cómo se dice pañuelo en japonés?', subtext: 'Saka-moko' },
+            { emoji: '🤪', text: '¿Por qué los pájaros no usan Facebook?', subtext: 'Porque ya tienen Twitter' },
+            { emoji: '😹', text: '¿Qué hace una abeja en el gimnasio?', subtext: '¡Zum-ba!' },
+            { emoji: '🙃', text: '¿Cómo organizan una fiesta en el espacio?', subtext: '¡Plane-tan!' },
+            { emoji: '😜', text: '¿Qué le dijo el semáforo al carro?', subtext: 'No me mires que me estoy cambiando' },
+            { emoji: '🤭', text: '¿Por qué el tomate se puso rojo?', subtext: 'Porque vio el aderezo de la ensalada' },
+            { emoji: '😝', text: '¿Qué le dice una iguana a su hermana gemela?', subtext: 'Iguanita' },
+            { emoji: '🥴', text: '¿Cuál es el animal más antiguo?', subtext: 'La cebra, porque está en blanco y negro' }
+        ];
+
+        let balloons = [];
+        let poppedCount = 0;
+        let shuffledContents = [];
+
+        function initBalloons() {
+            balloonsGameArea.innerHTML = '';
+            balloons = [];
+            poppedCount = 0;
+            poppedCountEl.textContent = '0';
+            balloonsComplete.classList.remove('active');
+            
+            // Mezclar contenidos
+            shuffledContents = [...balloonContents].sort(() => Math.random() - 0.5);
+            
+            // Crear 12 globos en posiciones aleatorias
+            for (let i = 0; i < 12; i++) {
+                createBalloon(i);
+            }
+        }
+
+        function createBalloon(index) {
+            const balloon = document.createElement('div');
+            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            balloon.className = `balloon balloon-${color}`;
+            balloon.dataset.index = index;
+            
+            // Posición aleatoria
+            const maxX = balloonsGameArea.offsetWidth - 80;
+            const maxY = balloonsGameArea.offsetHeight - 100;
+            const x = 20 + Math.random() * (maxX - 40);
+            const y = 20 + Math.random() * (maxY - 40);
+            
+            balloon.style.left = x + 'px';
+            balloon.style.top = y + 'px';
+            balloon.style.animationDelay = (Math.random() * 2) + 's';
+            
+            balloon.innerHTML = `
+                <div class="balloon-body"></div>
+                <div class="balloon-string"></div>
+            `;
+            
+            balloon.addEventListener('click', (e) => popBalloon(e, balloon, index));
+            
+            balloonsGameArea.appendChild(balloon);
+            balloons.push(balloon);
+        }
+
+        function popBalloon(e, balloon, index) {
+            if (balloon.classList.contains('popping')) return;
+            
+            // Crear dardo volando
+            createFlyingDart(e.clientX, e.clientY, balloon);
+            
+            // Obtener posición del globo para las partículas
+            const rect = balloon.getBoundingClientRect();
+            const gameRect = balloonsGameArea.getBoundingClientRect();
+            const relX = rect.left - gameRect.left + rect.width / 2;
+            const relY = rect.top - gameRect.top + rect.height / 2;
+            
+            // Crear partículas de explosión
+            setTimeout(() => {
+                createPopParticles(relX, relY, balloon.className);
+                
+                // Animar explosión
+                balloon.classList.add('popping');
+                
+                // Reproducir sonido
+                playPopSound();
+                
+                setTimeout(() => {
+                    balloon.remove();
+                    
+                    // Mostrar mensaje
+                    showBalloonMessage(index);
+                    
+                    poppedCount++;
+                    poppedCountEl.textContent = poppedCount;
+                    
+                    // Verificar si completó todos
+                    if (poppedCount >= 12) {
+                        setTimeout(() => {
+                            balloonsComplete.classList.add('active');
+                            launchConfettiFromBottom();
+                            fanfareAudio.currentTime = 0;
+                            fanfareAudio.play().catch(e => {});
+                            
+                            // Desbloquear el otro juego si este fue el primero
+                            if (firstGameChoice === 'balloons') {
+                                unlockOtherGameSection();
+                            }
+                        }, 500);
+                    }
+                }, 300);
+            }, 150);
+        }
+
+        function createFlyingDart(clientX, clientY, balloon) {
+            const dart = document.createElement('div');
+            dart.className = 'flying-dart';
+            dart.textContent = '🎯';
+            
+            const rect = balloonsGameArea.getBoundingClientRect();
+            dart.style.left = (clientX - rect.left) + 'px';
+            dart.style.top = (clientY - rect.top) + 'px';
+            
+            balloonsGameArea.appendChild(dart);
+            
+            setTimeout(() => dart.remove(), 200);
+        }
+
+        function createPopParticles(x, y, balloonClass) {
+            const colors = {
+                'balloon-red': '#ff6b6b',
+                'balloon-blue': '#4ecdc4',
+                'balloon-yellow': '#ffe66d',
+                'balloon-pink': '#ff85a2',
+                'balloon-purple': '#a855f7',
+                'balloon-green': '#4ade80',
+                'balloon-orange': '#fb923c'
+            };
+            
+            let particleColor = '#ff6b6b';
+            for (const [className, color] of Object.entries(colors)) {
+                if (balloonClass.includes(className)) {
+                    particleColor = color;
+                    break;
+                }
+            }
+            
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'pop-particle';
+                
+                const angle = (Math.PI * 2 * i) / 12;
+                const distance = 50 + Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                particle.style.cssText = `
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: ${particleColor};
+                    --tx: ${tx}px;
+                    --ty: ${ty}px;
+                    width: ${5 + Math.random() * 10}px;
+                    height: ${5 + Math.random() * 10}px;
+                `;
+                
+                balloonsGameArea.appendChild(particle);
+                setTimeout(() => particle.remove(), 600);
+            }
+        }
+
+        function playPopSound() {
+            const popAudio = document.getElementById('popAudio');
+            if (popAudio) {
+                popAudio.currentTime = 0;
+                popAudio.volume = 0.6;
+                popAudio.play().catch(e => console.log('Pop sound blocked:', e));
+            }
+        }
+
+        function showBalloonMessage(index) {
+            const content = shuffledContents[index];
+            
+            const messageEl = document.createElement('div');
+            messageEl.className = 'reveal-message';
+            messageEl.innerHTML = `
+                <div class="reveal-emoji">${content.emoji}</div>
+                <p class="reveal-text">${content.text}</p>
+                <p class="reveal-subtext">${content.subtext}</p>
+                <button class="reveal-close" onclick="closeRevealMessage()">¡Genial!</button>
+            `;
+            
+            messageOverlay.classList.add('active');
+            document.body.appendChild(messageEl);
+            
+            // Cerrar al hacer clic en overlay
+            messageOverlay.onclick = closeRevealMessage;
+        }
+
+        function closeRevealMessage() {
+            const message = document.querySelector('.reveal-message');
+            if (message) {
+                message.remove();
+            }
+            messageOverlay.classList.remove('active');
+            messageOverlay.onclick = null;
+        }
+
+        // Botón reiniciar globos
+        document.getElementById('resetBalloonsBtn').addEventListener('click', initBalloons);
+    </script>
+</body>
+</html>
